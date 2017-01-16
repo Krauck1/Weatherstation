@@ -1,5 +1,6 @@
 package kpmm.htl.weatherstation.activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,22 +38,34 @@ public class DiagramsFragment extends Fragment implements Observer {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_diagrams, container, false);
         lineChartView = (LineChartView)view.findViewById(R.id.testchart);
-        List<PointValue> values = new ArrayList<>();
-        values.add(new PointValue(0, 2));
-        values.add(new PointValue(1, 4));
-        values.add(new PointValue(2, 3));
-        values.add(new PointValue(3, 4));
-        values.add(new PointValue(4, 3));
-        values.add(new PointValue(5, 2));
-        values.add(new PointValue(6, 4));
-        values.add(new PointValue(7, 3));
-        values.add(new PointValue(8, 4));
-        values.add(new PointValue(9, 3));
 
-        Line line = new Line(values).setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(0).setFilled(true).setHasPoints(false);
-        line.setAreaTransparency(200);
+
+        List<PointValue> valuesRange = new ArrayList<>();
+        List<PointValue> values = new ArrayList<>();
+
+        // Height line, add it as first line to be drawn in the background.
+
+
+        values.add(new PointValue(0, 1));
+        values.add(new PointValue(1, 2));
+        values.add(new PointValue(2, 3));
+        values.add(new PointValue(3, 5));
+        values.add(new PointValue(4, 5));
+        values.add(new PointValue(5, 4));
+        values.add(new PointValue(6, 3));
+        values.add(new PointValue(7, 3));
+        values.add(new PointValue(8, 3));
+        values.add(new PointValue(9, 2));
+
+        valuesRange.add(new PointValue(0, 10));
+        Line lineRange = new Line(valuesRange).setColor(Color.parseColor("#00000000")).setCubic(true).setFilled(true).setHasPoints(false);
+        Line line = new Line(values).setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
+
+
+
         List<Line> lines = new ArrayList<>();
         lines.add(line);
+        lines.add(lineRange);
 
         LineChartData data = new LineChartData();
 
@@ -66,7 +79,7 @@ public class DiagramsFragment extends Fragment implements Observer {
         data.setAxisXBottom(timeAxis);
         Axis valueAxis = new Axis();
         valueAxis.setName("Value");
-        valueAxis.setMaxLabelChars(10);
+        valueAxis.setMaxLabelChars(2);
         valueAxis.setFormatter(new SimpleAxisValueFormatter().setAppendedText("val".toCharArray()));
         valueAxis.setHasLines(true);
         valueAxis.setHasTiltedLabels(true);
