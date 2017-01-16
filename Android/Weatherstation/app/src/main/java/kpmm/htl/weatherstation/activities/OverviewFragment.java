@@ -55,6 +55,7 @@ public class OverviewFragment extends Fragment implements Observer {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         model = Model.getInstance();
+        model.addObserver(this);
         View view = inflater.inflate(R.layout.content_overview, container, false);
         mainActivity = MainActivity.mainActivity;
         textViewCurrentTemperature = (TextView) view.findViewById(R.id.overview_content_text_view_current_temperature);

@@ -31,7 +31,7 @@ import java.util.Observable;
 
 public class Model extends Observable {
 
-    private final String IPADRESS = "192.168.1.127:8080";
+    private final String IPADRESS = "http://172.18.3.74:8080";
     private final String REFLAST = "/all";
     private final long DELAY = 5 * 60 * 1000;
 
