@@ -217,6 +217,7 @@
                                     android:src="@drawable/ic_temperature" />
 
                                 <ImageView
+                                    android:id="@+id/overview_content_image_view_compare_temperature_difference"
                                     android:layout_width="14dp"
                                     android:layout_height="14dp"
                                     android:layout_marginLeft="3dp"

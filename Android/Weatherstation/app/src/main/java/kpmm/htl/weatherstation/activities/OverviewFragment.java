@@ -103,8 +103,14 @@ public class OverviewFragment extends Fragment implements Observer {
         textViewCurrentTemperature.setText(String.format(Locale.ENGLISH, "%.2f °C", lastMeasurement.getAmbientTemperature()));
         textViewCurrentHumidity.setText(String.format(Locale.ENGLISH, "%.2f %%", lastMeasurement.getHumidity()));
         textViewCurrentRain.setText(String.format(Locale.ENGLISH, "%.2f mm³", lastMeasurement.getRainfall()));
+        if (compareMeasurement.getAmbientTemperature() > lastMeasurement.getAmbientTemperature()) {
+            textViewCompareTemperature.setText(String.format(Locale.ENGLISH, "%.2f °C", compareMeasurement.getAmbientTemperature() - lastMeasurement.getAmbientTemperature()));
 
-        textViewCompareTemperature.setText(String.format(Locale.ENGLISH, "%.2f °C", compareMeasurement.getAmbientTemperature()));
+        } else if (compareMeasurement.getAmbientTemperature() < lastMeasurement.getAmbientTemperature()) {
+            textViewCompareTemperature.setText(String.format(Locale.ENGLISH, "%.2f °C", lastMeasurement.getAmbientTemperature() - compareMeasurement.getAmbientTemperature()));
+        } else {
+            textViewCompareTemperature.setText(0);
+        }
         textViewCompareHumidity.setText(String.format(Locale.ENGLISH, "%.2f %%", compareMeasurement.getHumidity()));
         textViewCompareRain.setText(String.format(Locale.ENGLISH, "%.2f mm³", compareMeasurement.getRainfall()));
 
