@@ -32,7 +32,8 @@ import java.util.Observable;
 public class Model extends Observable {
 
     private final String IPADRESS = "http://172.18.3.74:8080";
-    private final String REFLAST = "/all";
+    private final String LAST = "/last";
+    private final String ALL = "/all";
     private final long DELAY = 5 * 60 * 1000;
 
     private static Model instance;
@@ -98,7 +99,11 @@ public class Model extends Observable {
     }
 
     public void requestLastMeasurement() {
-        receiveDataFromREST(IPADRESS + REFLAST);
+        receiveDataFromREST(IPADRESS + LAST);
+    }
+
+    public void requestAllMeasurements(){
+        receiveDataFromREST(IPADRESS+ALL);
     }
 
     public void requestMeasurementFromNow() {
@@ -106,7 +111,6 @@ public class Model extends Observable {
     }
 
     public Measurement getLastMeasurement() {
-        // measurementList.add(new Measurement(1, 2, 3, 4, 5, 6, 7, 8, 9, new Timestamp(0)));
         return measurementList.isEmpty() ? null : measurementList.get(0);
     }
 

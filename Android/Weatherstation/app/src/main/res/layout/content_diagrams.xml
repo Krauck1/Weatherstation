@@ -15,9 +15,9 @@
     tools:context="kpmm.htl.weatherstation.activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="5" />
+    <lecho.lib.hellocharts.view.LineChartView
+        android:id="@+id/testchart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
 </LinearLayout>
 
