@@ -2,15 +2,13 @@ package kpmm.htl.weatherstation.model;
 
 
 import android.content.Context;
-import android.util.JsonReader;
 
-import com.android.volley.Cache;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -19,7 +17,6 @@ import org.json.JSONObject;
 
 import java.sql.Timestamp;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
@@ -55,14 +52,13 @@ public class Model extends Observable {
 
     }
 
-    private void receiveDataFromREST(String url) {
+    private void receiveDataArrayFromREST(String url) {
         if (this.context == null)
             return;
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(JsonArrayRequest.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                System.out.println("t");
                 try {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject jsonObject = response.getJSONObject(i);
@@ -98,12 +94,49 @@ public class Model extends Observable {
         requestQueue.start();
     }
 
+    private void receiveDataObjectFromREST(String url) {
+        if (this.context == null)
+            return;
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(JsonObjectRequest.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    Measurement measurement = new Measurement(
+                            (float) response.getDouble("ambient_temperature"),
+                            (float) response.getDouble("ground_temperature"),
+                            (float) response.getDouble("air_quality"),
+                            (float) response.getDouble("air_pressure"),
+                            (float) response.getDouble("humidity"),
+                            (float) response.getDouble("wind_speed"),
+                            (float) response.getDouble("wind_gust_speed"),
+                            (float) response.getDouble("rainfall"),
+                            Timestamp.valueOf(response.getString("created")));
+                    measurementList.add(0, measurement);
+                    success = true;
+                    Collections.sort(measurementList);
+                    setChanged();
+                    notifyObservers();
+                } catch (JSONException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+        requestQueue.start();
+    }
+
     public void requestLastMeasurement() {
-        receiveDataFromREST(IPADRESS + LAST);
+        receiveDataObjectFromREST(IPADRESS + LAST);
     }
 
     public void requestAllMeasurements(){
-        receiveDataFromREST(IPADRESS+ALL);
+        receiveDataArrayFromREST(IPADRESS + ALL);
     }
 
     public void requestMeasurementFromNow() {

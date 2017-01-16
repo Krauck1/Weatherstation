@@ -43,8 +43,14 @@ public class DiagramsFragment extends Fragment implements Observer {
         values.add(new PointValue(2, 3));
         values.add(new PointValue(3, 4));
         values.add(new PointValue(4, 3));
+        values.add(new PointValue(5, 2));
+        values.add(new PointValue(6, 4));
+        values.add(new PointValue(7, 3));
+        values.add(new PointValue(8, 4));
+        values.add(new PointValue(9, 3));
 
-        Line line = new Line(values).setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(0);
+        Line line = new Line(values).setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(0).setFilled(true).setHasPoints(false);
+        line.setAreaTransparency(200);
         List<Line> lines = new ArrayList<>();
         lines.add(line);
 
@@ -64,6 +70,7 @@ public class DiagramsFragment extends Fragment implements Observer {
         valueAxis.setFormatter(new SimpleAxisValueFormatter().setAppendedText("val".toCharArray()));
         valueAxis.setHasLines(true);
         valueAxis.setHasTiltedLabels(true);
+
 
         data.setLines(lines);
         data.setAxisXBottom(timeAxis);
