@@ -5,12 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
+    android:id="@+id/content_overview"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    <LinearLayout
-        android:id="@+id/content_overview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/overview_content_swipe_refresh_layout"
@@ -307,5 +303,4 @@
                 </LinearLayout>
             </LinearLayout>
         </android.support.v4.widget.SwipeRefreshLayout>
-    </LinearLayout>
 </LinearLayout>
