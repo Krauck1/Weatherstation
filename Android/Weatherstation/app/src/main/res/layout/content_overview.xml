@@ -14,7 +14,6 @@
             android:layout_height="match_parent"
             android:background="@android:color/white"
             android:clipToPadding="false"
-            android:paddingBottom="@dimen/activity_vertical_margin"
             tools:context="kpmm.htl.weatherstation.activities.MainActivity"
             tools:showIn="@layout/app_bar_main">
 
@@ -22,14 +21,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/white"
-                android:orientation="vertical"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                android:orientation="vertical">
 
                 <LinearLayout
                     style="@style/ListTopic"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/overview_content_text_view_heading_current_weather"
@@ -135,8 +132,7 @@
                 <LinearLayout
                     style="@style/ListTopic"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -179,8 +175,7 @@
                 <LinearLayout
                     style="@style/ListTopic"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:layout_width="wrap_content"
