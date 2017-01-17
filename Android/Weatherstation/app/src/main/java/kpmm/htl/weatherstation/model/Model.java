@@ -160,6 +160,10 @@ public class Model extends Observable {
         return last;
     }
 
+    public List<Measurement> getMeasurementList() {
+        return measurementList;
+    }
+
     public boolean isSuccess() {
         return success;
     }

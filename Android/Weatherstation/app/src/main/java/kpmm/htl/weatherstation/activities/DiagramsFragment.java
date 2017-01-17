@@ -1,13 +1,18 @@
 package kpmm.htl.weatherstation.activities;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +20,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import kpmm.htl.weatherstation.R;
+import kpmm.htl.weatherstation.model.Measurement;
 import kpmm.htl.weatherstation.model.Model;
 import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
 import lecho.lib.hellocharts.gesture.ZoomType;
@@ -39,12 +45,18 @@ public class DiagramsFragment extends Fragment implements Observer {
 
     SwipeRefreshLayout swipeRefreshLayout;
 
+    ImageView imageViewTemperature;
+    ImageView imageViewRainfall;
+
     Model model;
 
-    Line temperatureLine;
-    Line rainfallLine;
+    Line lineTemperature;
+    Line lineRainfall;
 
-    public DiagramsFragment(){}
+    List<Measurement> measurementList;
+
+    public DiagramsFragment() {
+    }
 
     @Nullable
     @Override
@@ -58,7 +70,16 @@ public class DiagramsFragment extends Fragment implements Observer {
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.diagrams_content_swipe_refresh_layout);
 
+        imageViewTemperature = (ImageView) view.findViewById(R.id.diagrams_content_image_view_temperature);
+        imageViewRainfall = (ImageView) view.findViewById(R.id.diagrams_content_image_view_rainfall);
+
         swipeRefreshLayout.setColorSchemeColors(MainActivity.colorPrimary);
+
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            imageViewTemperature.setBackground(new RippleDrawable(ColorStateList.valueOf(Color.GRAY), null, null));
+            imageViewRainfall.setBackground(new RippleDrawable(ColorStateList.valueOf(Color.GRAY), null, null));
+        }
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -66,17 +87,28 @@ public class DiagramsFragment extends Fragment implements Observer {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+        imageViewTemperature.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+        imageViewRainfall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         //region Set Temperature Properties
         List<PointValue> valueRangeTemperature = new ArrayList<>();
         valueRangeTemperature.add(new PointValue(0, TEMPERETURE_MAX));
         valueRangeTemperature.add(new PointValue(0, TEMPERETURE_MIN));
 
         Line lineRangeTemperature = new Line(valueRangeTemperature).setColor(MainActivity.colorTransparent).setCubic(true).setFilled(true).setHasPoints(false);
-        temperatureLine = new Line().setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
+        lineTemperature = new Line().setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
 
         List<Line> linesTemperature = new ArrayList<>();
-        linesTemperature.add(temperatureLine);
+        linesTemperature.add(lineTemperature);
         linesTemperature.add(lineRangeTemperature);
 
         LineChartData lineChartDataTemperature = new LineChartData();
@@ -117,10 +149,10 @@ public class DiagramsFragment extends Fragment implements Observer {
         valueRangeRainfall.add(new PointValue(0, TEMPERETURE_MIN));
 
         Line lineRangeRainfall = new Line(valueRangeRainfall).setColor(MainActivity.colorTransparent).setCubic(true).setFilled(true).setHasPoints(false);
-        rainfallLine = new Line().setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
+        lineRainfall = new Line().setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
 
         List<Line> linesRainfall = new ArrayList<>();
-        linesRainfall.add(rainfallLine);
+        linesRainfall.add(lineRainfall);
         linesRainfall.add(lineRangeRainfall);
 
         LineChartData lineChartDataRainfall = new LineChartData();
@@ -154,12 +186,22 @@ public class DiagramsFragment extends Fragment implements Observer {
         lineChartViewRainfall.setZoomType(ZoomType.HORIZONTAL);
         lineChartViewRainfall.setCurrentViewport(viewportRainfall);
         //endregion
-        
+
         return view;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-
+        if (!model.isSuccess()) {
+            swipeRefreshLayout.setRefreshing(false);
+            Toast.makeText(getContext(), "Connection Failed", Toast.LENGTH_SHORT);
+            return;
+        }
+        int i = 0;
+        lineTemperature.getValues().clear();
+        for (Measurement measurement : model.getMeasurementList()) {
+            lineTemperature.getValues().add(new PointValue(i, measurement.getAmbientTemperature()));
+            i++;
+        }
     }
 }

@@ -116,18 +116,18 @@ public class OverviewFragment extends Fragment implements Observer {
 
         if (lastMeasurement.getRainfall() < 1) {
             imageViewCurrentWeather.setImageResource(R.drawable.ic_sunny);
-            textViewHeadingCurrentWeather.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFC107")));
+            textViewHeadingCurrentWeather.setTextColor(ColorStateList.valueOf(MainActivity.colorTemperature));
         } else {
             if (lastMeasurement.getAmbientTemperature() < 0) {
                 imageViewCurrentWeather.setImageResource(R.drawable.ic_snowflake);
-                textViewHeadingCurrentWeather.setTextColor(ColorStateList.valueOf(Color.parseColor("#26C6DA")));
+                textViewHeadingCurrentWeather.setTextColor(ColorStateList.valueOf(MainActivity.colorSnow));
 
             } else if (lastMeasurement.getAmbientTemperature() > 30) {
                 imageViewCurrentWeather.setImageResource(R.drawable.ic_eclipse);
-                textViewHeadingCurrentWeather.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFC107")));
+                textViewHeadingCurrentWeather.setTextColor(ColorStateList.valueOf(MainActivity.colorEclipse));
             } else {
                 imageViewCurrentWeather.setImageResource(R.drawable.ic_rain);
-                textViewHeadingCurrentWeather.setTextColor(ColorStateList.valueOf(Color.parseColor("#1A237E")));
+                textViewHeadingCurrentWeather.setTextColor(ColorStateList.valueOf(MainActivity.colorRainfall));
                 imageViewSmoking.setImageResource(R.drawable.ic_no_smoking);
                 textViewSmoking.setText(R.string.bad_time);
             }
