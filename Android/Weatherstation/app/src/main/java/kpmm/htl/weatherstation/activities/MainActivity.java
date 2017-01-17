@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     public static int colorSnow;
     public static int colorEclipse;
     public static int colorRainfall;
+    public static int colorTemperature;
 
     public static MainActivity mainActivity;
 
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity
         colorSnow = ContextCompat.getColor(getApplicationContext(), R.color.colorSnow);
         colorEclipse = ContextCompat.getColor(getApplicationContext(), R.color.colorEclipse);
         colorRainfall = ContextCompat.getColor(getApplicationContext(), R.color.colorRainfall);
+        colorTemperature = ContextCompat.getColor(getApplicationContext(), R.color.colorTemperature);
     }
 
     @Override
