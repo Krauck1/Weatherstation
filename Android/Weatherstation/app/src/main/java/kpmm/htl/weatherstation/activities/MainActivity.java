@@ -31,8 +31,11 @@ public class MainActivity extends AppCompatActivity
 
     public static int colorAccent;
     public static int colorPrimary;
-
+    public static int colorTransparent;
     public static int colorTime;
+    public static int colorSnow;
+    public static int colorEclipse;
+    public static int colorRainfall;
 
     public static MainActivity mainActivity;
 
@@ -87,6 +90,10 @@ public class MainActivity extends AppCompatActivity
         colorAccent = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
         colorPrimary = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary);
         colorTime = ContextCompat.getColor(getApplicationContext(), R.color.colorTime);
+        colorTransparent = ContextCompat.getColor(getApplicationContext(), R.color.colorTransparent);
+        colorSnow = ContextCompat.getColor(getApplicationContext(), R.color.colorSnow);
+        colorEclipse = ContextCompat.getColor(getApplicationContext(), R.color.colorEclipse);
+        colorRainfall = ContextCompat.getColor(getApplicationContext(), R.color.colorRainfall);
     }
 
     @Override

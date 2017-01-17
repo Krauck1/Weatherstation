@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +15,14 @@ import java.util.Observable;
 import java.util.Observer;
 
 import kpmm.htl.weatherstation.R;
-import lecho.lib.hellocharts.formatter.AxisValueFormatter;
+import kpmm.htl.weatherstation.model.Model;
 import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.model.Axis;
-import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.Viewport;
-import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.LineChartView;
 
 /**
@@ -33,85 +32,129 @@ import lecho.lib.hellocharts.view.LineChartView;
 public class DiagramsFragment extends Fragment implements Observer {
 
     private final int TEMPERETURE_MAX = 40;
-    private final int TEMPERETURE_MIN = -15;
+    private final int TEMPERETURE_MIN = -20;
 
-    LineChartView lineChartView;
+    LineChartView lineChartViewTemperature;
+    LineChartView lineChartViewRainfall;
 
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    Model model;
+
+    Line temperatureLine;
+    Line rainfallLine;
 
     public DiagramsFragment(){}
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        model = Model.getInstance();
+        model.addObserver(this);
+
         View view = inflater.inflate(R.layout.content_diagrams, container, false);
-        lineChartView = (LineChartView)view.findViewById(R.id.testchart);
+        lineChartViewTemperature = (LineChartView) view.findViewById(R.id.diagrams_content_line_chart_view_temperature);
+        lineChartViewRainfall = (LineChartView) view.findViewById(R.id.diagrams_content_line_chart_view_rainfall);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.diagrams_content_swipe_refresh_layout);
 
-        List<PointValue> valuesRange = new ArrayList<>();
-        List<PointValue> values = new ArrayList<>();
+        swipeRefreshLayout.setColorSchemeColors(MainActivity.colorPrimary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                model.requestAllMeasurements();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
-        // Height line, add it as first line to be drawn in the background.
+        //region Set Temperature Properties
+        List<PointValue> valueRangeTemperature = new ArrayList<>();
+        valueRangeTemperature.add(new PointValue(0, TEMPERETURE_MAX));
+        valueRangeTemperature.add(new PointValue(0, TEMPERETURE_MIN));
 
+        Line lineRangeTemperature = new Line(valueRangeTemperature).setColor(MainActivity.colorTransparent).setCubic(true).setFilled(true).setHasPoints(false);
+        temperatureLine = new Line().setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
 
-        values.add(new PointValue(0, 1));
-        values.add(new PointValue(1, 2));
-        values.add(new PointValue(2, 3));
-        values.add(new PointValue(3, 5));
-        values.add(new PointValue(4, 5));
-        values.add(new PointValue(5, 4));
-        values.add(new PointValue(6, 3));
-        values.add(new PointValue(7, 3));
-        values.add(new PointValue(8, 3));
-        values.add(new PointValue(9, 2));
-        values.add(new PointValue(50, 2));
+        List<Line> linesTemperature = new ArrayList<>();
+        linesTemperature.add(temperatureLine);
+        linesTemperature.add(lineRangeTemperature);
 
+        LineChartData lineChartDataTemperature = new LineChartData();
 
-        valuesRange.add(new PointValue(0, TEMPERETURE_MAX));
-        valuesRange.add(new PointValue(0, TEMPERETURE_MIN));
-        Line lineRange = new Line(valuesRange).setColor(Color.parseColor("#00000000")).setCubic(true).setFilled(true).setHasPoints(false);
-        Line line = new Line(values).setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
+        Axis xAxisTemperature = new Axis();
+        xAxisTemperature.setName("Time");
+        xAxisTemperature.setMaxLabelChars(4);
+        xAxisTemperature.setTextColor(MainActivity.colorTime);
+        xAxisTemperature.setLineColor(MainActivity.colorTime);
+        xAxisTemperature.setFormatter(new SimpleAxisValueFormatter().setAppendedText("min".toCharArray()));
+        xAxisTemperature.setHasLines(true);
+        lineChartDataTemperature.setAxisXBottom(xAxisTemperature);
+        Axis yAxisTemperature = new Axis();
+        yAxisTemperature.setMaxLabelChars(3);
+        yAxisTemperature.setTextColor(MainActivity.colorPrimary);
+        yAxisTemperature.setLineColor(MainActivity.colorPrimary);
+        yAxisTemperature.setInside(false);
+        yAxisTemperature.setFormatter(new SimpleAxisValueFormatter().setAppendedText("°C".toCharArray()));
+        yAxisTemperature.setHasLines(true);
 
+        lineChartDataTemperature.setLines(linesTemperature);
+        lineChartDataTemperature.setAxisXBottom(xAxisTemperature);
+        lineChartDataTemperature.setAxisYLeft(yAxisTemperature);
 
+        Viewport viewportTemperature = new Viewport(lineChartViewTemperature.getMaximumViewport());
+        viewportTemperature.left = 0;
+        viewportTemperature.right = 20;
+        viewportTemperature.top = TEMPERETURE_MAX;
+        viewportTemperature.bottom = TEMPERETURE_MIN;
+        lineChartViewTemperature.setLineChartData(lineChartDataTemperature);
+        lineChartViewTemperature.setZoomType(ZoomType.HORIZONTAL);
+        lineChartViewTemperature.setCurrentViewport(viewportTemperature);
+        //endregion
 
-        List<Line> lines = new ArrayList<>();
-        lines.add(line);
-        lines.add(lineRange);
+        //region Set Rainfall Properties
+        List<PointValue> valueRangeRainfall = new ArrayList<>();
+        valueRangeRainfall.add(new PointValue(0, TEMPERETURE_MAX));
+        valueRangeRainfall.add(new PointValue(0, TEMPERETURE_MIN));
 
-        LineChartData data = new LineChartData();
+        Line lineRangeRainfall = new Line(valueRangeRainfall).setColor(MainActivity.colorTransparent).setCubic(true).setFilled(true).setHasPoints(false);
+        rainfallLine = new Line().setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
 
+        List<Line> linesRainfall = new ArrayList<>();
+        linesRainfall.add(rainfallLine);
+        linesRainfall.add(lineRangeRainfall);
 
-        Axis timeAxis = new Axis();
-        timeAxis.setName("Time");
-        timeAxis.setMaxLabelChars(4);
-        timeAxis.setTextColor(MainActivity.colorTime);
-        timeAxis.setLineColor(MainActivity.colorTime);
-        timeAxis.setFormatter(new SimpleAxisValueFormatter().setAppendedText("min".toCharArray()));
-        timeAxis.setHasLines(true);
-        timeAxis.setHasTiltedLabels(true);
-        data.setAxisXBottom(timeAxis);
-        Axis valueAxis = new Axis();
-        valueAxis.setMaxLabelChars(3);
-        valueAxis.setTextColor(MainActivity.colorPrimary);
-        valueAxis.setLineColor(MainActivity.colorPrimary);
-        valueAxis.setInside(false);
-        valueAxis.setFormatter(new SimpleAxisValueFormatter().setAppendedText("°C".toCharArray()));
-        valueAxis.setHasLines(true);
-        valueAxis.setHasTiltedLabels(true);
+        LineChartData lineChartDataRainfall = new LineChartData();
 
+        Axis xAxisRainfall = new Axis();
+        xAxisRainfall.setName("Time");
+        xAxisRainfall.setMaxLabelChars(4);
+        xAxisRainfall.setTextColor(MainActivity.colorTime);
+        xAxisRainfall.setLineColor(MainActivity.colorTime);
+        xAxisRainfall.setFormatter(new SimpleAxisValueFormatter().setAppendedText("min".toCharArray()));
+        xAxisRainfall.setHasLines(true);
+        lineChartDataRainfall.setAxisXBottom(xAxisRainfall);
+        Axis yAxisRainfall = new Axis();
+        yAxisRainfall.setMaxLabelChars(3);
+        yAxisRainfall.setTextColor(MainActivity.colorRainfall);
+        yAxisRainfall.setLineColor(MainActivity.colorRainfall);
+        yAxisRainfall.setInside(false);
+        yAxisRainfall.setFormatter(new SimpleAxisValueFormatter().setAppendedText("mm".toCharArray()));
+        yAxisRainfall.setHasLines(true);
 
-        data.setLines(lines);
-        data.setAxisXBottom(timeAxis);
-        data.setAxisYLeft(valueAxis);
+        lineChartDataRainfall.setLines(linesRainfall);
+        lineChartDataRainfall.setAxisXBottom(xAxisRainfall);
+        lineChartDataRainfall.setAxisYLeft(yAxisRainfall);
 
-        Viewport viewport = new Viewport(lineChartView.getMaximumViewport());
-        viewport.left = 0;
-        viewport.right = 20;
-        viewport.top = 40;
-        viewport.bottom = -15;
-        lineChartView.setLineChartData(data);
-        lineChartView.setZoomType(ZoomType.HORIZONTAL);
-        lineChartView.setCurrentViewport(viewport);
-
+        Viewport viewportRainfall = new Viewport(lineChartViewRainfall.getMaximumViewport());
+        viewportRainfall.left = 0;
+        viewportRainfall.right = 20;
+        viewportRainfall.top = TEMPERETURE_MAX;
+        viewportRainfall.bottom = TEMPERETURE_MIN;
+        lineChartViewRainfall.setLineChartData(lineChartDataRainfall);
+        lineChartViewRainfall.setZoomType(ZoomType.HORIZONTAL);
+        lineChartViewRainfall.setCurrentViewport(viewportRainfall);
+        //endregion
+        
         return view;
     }
 
@@ -119,5 +162,4 @@ public class DiagramsFragment extends Fragment implements Observer {
     public void update(Observable o, Object arg) {
 
     }
-
 }

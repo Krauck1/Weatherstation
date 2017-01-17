@@ -6,4 +6,10 @@
     <color name="colorAccent">#FF5722</color>
 
     <color name="colorTime">#4CAF50</color>
+    <color name="colorRainfall">#1A237E</color>
+    <color name="colorSnow">#26C6DA</color>
+    <color name="colorEclipse">#FF5722</color>
+    <color name="colorTemperature">#FF9800</color>
+
+    <color name="colorTransparent">#00000000</color>
 </resources>
