@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Observer {
 
     public static int colorAccent;
+    public static int colorPrimary;
+
+    public static int colorTime;
+
     public static MainActivity mainActivity;
 
     private DiagramsFragment diagramsFragment;
@@ -81,6 +85,8 @@ public class MainActivity extends AppCompatActivity
 
     private void loadResources() {
         colorAccent = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
+        colorPrimary = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary);
+        colorTime = ContextCompat.getColor(getApplicationContext(), R.color.colorTime);
     }
 
     @Override

@@ -14,11 +14,15 @@ import java.util.Observable;
 import java.util.Observer;
 
 import kpmm.htl.weatherstation.R;
+import lecho.lib.hellocharts.formatter.AxisValueFormatter;
 import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
+import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.LineChartView;
 
@@ -27,6 +31,9 @@ import lecho.lib.hellocharts.view.LineChartView;
  */
 
 public class DiagramsFragment extends Fragment implements Observer {
+
+    private final int TEMPERETURE_MAX = 40;
+    private final int TEMPERETURE_MIN = -15;
 
     LineChartView lineChartView;
 
@@ -56,8 +63,11 @@ public class DiagramsFragment extends Fragment implements Observer {
         values.add(new PointValue(7, 3));
         values.add(new PointValue(8, 3));
         values.add(new PointValue(9, 2));
+        values.add(new PointValue(50, 2));
 
-        valuesRange.add(new PointValue(0, 10));
+
+        valuesRange.add(new PointValue(0, TEMPERETURE_MAX));
+        valuesRange.add(new PointValue(0, TEMPERETURE_MIN));
         Line lineRange = new Line(valuesRange).setColor(Color.parseColor("#00000000")).setCubic(true).setFilled(true).setHasPoints(false);
         Line line = new Line(values).setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
 
@@ -72,15 +82,19 @@ public class DiagramsFragment extends Fragment implements Observer {
 
         Axis timeAxis = new Axis();
         timeAxis.setName("Time");
-        timeAxis.setMaxLabelChars(10);
-        timeAxis.setFormatter(new SimpleAxisValueFormatter().setAppendedText("km".toCharArray()));
+        timeAxis.setMaxLabelChars(4);
+        timeAxis.setTextColor(MainActivity.colorTime);
+        timeAxis.setLineColor(MainActivity.colorTime);
+        timeAxis.setFormatter(new SimpleAxisValueFormatter().setAppendedText("min".toCharArray()));
         timeAxis.setHasLines(true);
         timeAxis.setHasTiltedLabels(true);
         data.setAxisXBottom(timeAxis);
         Axis valueAxis = new Axis();
-        valueAxis.setName("Value");
-        valueAxis.setMaxLabelChars(2);
-        valueAxis.setFormatter(new SimpleAxisValueFormatter().setAppendedText("val".toCharArray()));
+        valueAxis.setMaxLabelChars(3);
+        valueAxis.setTextColor(MainActivity.colorPrimary);
+        valueAxis.setLineColor(MainActivity.colorPrimary);
+        valueAxis.setInside(false);
+        valueAxis.setFormatter(new SimpleAxisValueFormatter().setAppendedText("°C".toCharArray()));
         valueAxis.setHasLines(true);
         valueAxis.setHasTiltedLabels(true);
 
@@ -89,7 +103,14 @@ public class DiagramsFragment extends Fragment implements Observer {
         data.setAxisXBottom(timeAxis);
         data.setAxisYLeft(valueAxis);
 
+        Viewport viewport = new Viewport(lineChartView.getMaximumViewport());
+        viewport.left = 0;
+        viewport.right = 20;
+        viewport.top = 40;
+        viewport.bottom = -15;
         lineChartView.setLineChartData(data);
+        lineChartView.setZoomType(ZoomType.HORIZONTAL);
+        lineChartView.setCurrentViewport(viewport);
 
         return view;
     }
@@ -98,4 +119,5 @@ public class DiagramsFragment extends Fragment implements Observer {
     public void update(Observable o, Object arg) {
 
     }
+
 }

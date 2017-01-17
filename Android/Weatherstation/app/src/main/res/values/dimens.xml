@@ -10,4 +10,6 @@
     <dimen name="size_big_image">100dp</dimen>
     <dimen name="size_normal_image">60dp</dimen>
     <dimen name="size_small_image">30dp</dimen>
+
+    <dimen name="diagram_height">200dp</dimen>
 </resources>
