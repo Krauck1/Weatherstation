@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity
     private DiagramsFragment diagramsFragment;
     private OverviewFragment overviewFragment;
     Model model;
-    FragmentSelection fragmentSelection = FragmentSelection.OVERVIEW;
+    static FragmentSelection fragmentSelection = FragmentSelection.OVERVIEW;
 
     FrameLayout frameLayoutContent;
 
@@ -76,8 +76,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.content_main, overviewFragment = new OverviewFragment()).commit();
+        changeFragment();
     }
 
     private void loadResources() {
@@ -125,12 +124,12 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_overview) {
             if (fragmentSelection != FragmentSelection.OVERVIEW) {
                 fragmentSelection = FragmentSelection.OVERVIEW;
-                changeFragment(overviewFragment == null ? (overviewFragment = new OverviewFragment()) : overviewFragment);
+                changeFragment();
             }
         } else if (id == R.id.nav_diagrams) {
             if (fragmentSelection != FragmentSelection.DIAGRAMS) {
                 fragmentSelection = FragmentSelection.DIAGRAMS;
-                changeFragment(diagramsFragment == null ? (diagramsFragment = new DiagramsFragment()) : diagramsFragment);
+                changeFragment();
             }
         } else if (id == R.id.nav_notifications) {
             if (fragmentSelection != FragmentSelection.NOTIFICATIONS) {
@@ -151,6 +150,19 @@ public class MainActivity extends AppCompatActivity
     private void changeFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.content_main, fragment).commit();
+    }
+
+    private void changeFragment() {
+        switch (fragmentSelection) {
+            case OVERVIEW:
+                setTitle(R.string.title_overview);
+                changeFragment(overviewFragment == null ? overviewFragment = new OverviewFragment() : overviewFragment);
+                break;
+            case DIAGRAMS:
+                setTitle(R.string.title_diagrams);
+                changeFragment(diagramsFragment == null ? diagramsFragment = new DiagramsFragment() : diagramsFragment);
+                break;
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Weatherstation</string>
     <string name="title_overview">Overview</string>
+    <string name="title_diagrams">Diagrams</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -9,4 +10,5 @@
     <string name="perfect_time">Perfect Time</string>
     <string name="bad_time">Bad Time</string>
     <string name="current_weather">Current Weather</string>
+
 </resources>
