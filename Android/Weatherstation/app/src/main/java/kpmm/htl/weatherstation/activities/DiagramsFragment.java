@@ -186,7 +186,7 @@ public class DiagramsFragment extends Fragment implements Observer {
         lineChartViewRainfall.setZoomType(ZoomType.HORIZONTAL);
         lineChartViewRainfall.setCurrentViewport(viewportRainfall);
         //endregion
-
+        model.requestAllMeasurements();
         return view;
     }
 
