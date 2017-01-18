@@ -1,7 +1,6 @@
 package kpmm.htl.weatherstation.activities;
 
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -38,7 +37,7 @@ public class OverviewFragment extends Fragment implements Observer {
     TextView textViewCurrentRain;
     TextView textViewCompareTemperature;
     TextView textViewCompareHumidity;
-    TextView textViewCompareRain;
+    TextView textViewCompareRainfall;
     TextView textViewHeadingCurrentWeather;
     TextView textViewSmoking;
 
@@ -46,6 +45,9 @@ public class OverviewFragment extends Fragment implements Observer {
 
     ImageView imageViewCurrentWeather;
     ImageView imageViewSmoking;
+    ImageView imageViewCompareTemperatureDifference;
+    ImageView imageViewCompareHumidityDifference;
+    ImageView imageViewCompareRainfallDifference;
 
     public OverviewFragment() {
     }
@@ -63,12 +65,16 @@ public class OverviewFragment extends Fragment implements Observer {
         textViewCurrentRain = (TextView) view.findViewById(R.id.overview_content_text_view_current_rain);
         textViewCompareTemperature = (TextView) view.findViewById(R.id.overview_content_text_view_compare_temperature);
         textViewCompareHumidity = (TextView) view.findViewById(R.id.overview_content_text_view_compare_humidity);
-        textViewCompareRain = (TextView) view.findViewById(R.id.overview_content_text_view_compare_rain);
+        textViewCompareRainfall = (TextView) view.findViewById(R.id.overview_content_text_view_compare_rainfall);
         textViewHeadingCurrentWeather = (TextView) view.findViewById(R.id.overview_content_text_view_heading_current_weather);
         textViewSmoking = (TextView) view.findViewById(R.id.overview_content_text_view_smoking);
 
         imageViewCurrentWeather = (ImageView) view.findViewById(R.id.overview_content_image_view_current_weather);
         imageViewSmoking = (ImageView) view.findViewById(R.id.overview_content_image_view_smoking);
+        imageViewCompareTemperatureDifference = (ImageView) view.findViewById(R.id.overview_content_image_view_compare_temperature_difference);
+        imageViewCompareHumidityDifference = (ImageView) view.findViewById(R.id.overview_content_image_view_compare_humidity_difference);
+        imageViewCompareRainfallDifference = (ImageView) view.findViewById(R.id.overview_content_image_view_compare_rainfall_difference);
+
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.overview_content_swipe_refresh_layout);
 
@@ -103,16 +109,41 @@ public class OverviewFragment extends Fragment implements Observer {
         textViewCurrentTemperature.setText(String.format(Locale.ENGLISH, "%.2f °C", lastMeasurement.getAmbientTemperature()));
         textViewCurrentHumidity.setText(String.format(Locale.ENGLISH, "%.2f %%", lastMeasurement.getHumidity()));
         textViewCurrentRain.setText(String.format(Locale.ENGLISH, "%.2f mm³", lastMeasurement.getRainfall()));
+
+        //region SET COMPARE
         if (compareMeasurement.getAmbientTemperature() > lastMeasurement.getAmbientTemperature()) {
             textViewCompareTemperature.setText(String.format(Locale.ENGLISH, "%.2f °C", compareMeasurement.getAmbientTemperature() - lastMeasurement.getAmbientTemperature()));
-
+            imageViewCompareTemperatureDifference.setImageResource(R.drawable.ic_arrow_upward);
         } else if (compareMeasurement.getAmbientTemperature() < lastMeasurement.getAmbientTemperature()) {
             textViewCompareTemperature.setText(String.format(Locale.ENGLISH, "%.2f °C", lastMeasurement.getAmbientTemperature() - compareMeasurement.getAmbientTemperature()));
+            imageViewCompareTemperatureDifference.setImageResource(R.drawable.ic_arrow_downward);
         } else {
-            textViewCompareTemperature.setText(0);
+            textViewCompareTemperature.setText("0");
+            imageViewCompareTemperatureDifference.setImageResource(R.drawable.ic_nothing);
         }
-        textViewCompareHumidity.setText(String.format(Locale.ENGLISH, "%.2f %%", compareMeasurement.getHumidity()));
-        textViewCompareRain.setText(String.format(Locale.ENGLISH, "%.2f mm³", compareMeasurement.getRainfall()));
+
+        if (compareMeasurement.getRainfall() > lastMeasurement.getRainfall()) {
+            textViewCompareRainfall.setText(String.format(Locale.ENGLISH, "%.2f °C", compareMeasurement.getRainfall() - lastMeasurement.getRainfall()));
+            imageViewCompareRainfallDifference.setImageResource(R.drawable.ic_arrow_upward);
+        } else if (compareMeasurement.getRainfall() < lastMeasurement.getRainfall()) {
+            textViewCompareRainfall.setText(String.format(Locale.ENGLISH, "%.2f °C", lastMeasurement.getRainfall() - compareMeasurement.getRainfall()));
+            imageViewCompareRainfallDifference.setImageResource(R.drawable.ic_arrow_downward);
+        } else {
+            textViewCompareRainfall.setText("0");
+            imageViewCompareRainfallDifference.setImageResource(R.drawable.ic_nothing);
+        }
+
+        if (compareMeasurement.getHumidity() > lastMeasurement.getHumidity()) {
+            textViewCompareRainfall.setText(String.format(Locale.ENGLISH, "%.2f °C", compareMeasurement.getHumidity() - lastMeasurement.getHumidity()));
+            imageViewCompareHumidityDifference.setImageResource(R.drawable.ic_arrow_upward);
+        } else if (compareMeasurement.getHumidity() < lastMeasurement.getHumidity()) {
+            textViewCompareRainfall.setText(String.format(Locale.ENGLISH, "%.2f °C", lastMeasurement.getHumidity() - compareMeasurement.getHumidity()));
+            imageViewCompareHumidityDifference.setImageResource(R.drawable.ic_arrow_downward);
+        } else {
+            textViewCompareHumidity.setText("0");
+            imageViewCompareHumidityDifference.setImageResource(R.drawable.ic_nothing);
+        }
+        //endregion
 
         if (lastMeasurement.getRainfall() < 1) {
             imageViewCurrentWeather.setImageResource(R.drawable.ic_sunny);

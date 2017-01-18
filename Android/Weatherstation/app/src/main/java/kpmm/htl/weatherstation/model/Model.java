@@ -28,7 +28,7 @@ import java.util.Observable;
 
 public class Model extends Observable {
 
-    private final String IPADRESS = "http://172.18.3.74:8080";
+    private final String IPADRESS = "http://172.18.252.131:8080";
     private final String LAST = "/last";
     private final String ALL = "/all";
     private final long DELAY = 5 * 60 * 1000;

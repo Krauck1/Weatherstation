@@ -242,6 +242,7 @@
                                     android:src="@drawable/ic_humidity" />
 
                                 <ImageView
+                                    android:id="@+id/overview_content_image_view_compare_humidity_difference"
                                     android:layout_width="14dp"
                                     android:layout_height="14dp"
                                     android:layout_marginLeft="3dp"
@@ -271,6 +272,7 @@
                                     android:src="@drawable/ic_rainfall" />
 
                                 <ImageView
+                                    android:id="@+id/overview_content_image_view_compare_rainfall_difference"
                                     android:layout_width="14dp"
                                     android:layout_height="14dp"
                                     android:layout_marginLeft="3dp"
@@ -278,7 +280,7 @@
                                     android:src="@drawable/ic_nothing" />
 
                                 <TextView
-                                    android:id="@+id/overview_content_text_view_compare_rain"
+                                    android:id="@+id/overview_content_text_view_compare_rainfall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="7dp"
