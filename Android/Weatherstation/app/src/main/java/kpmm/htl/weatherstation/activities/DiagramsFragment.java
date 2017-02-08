@@ -51,6 +51,7 @@ public class DiagramsFragment extends Fragment implements Observer {
     Model model;
 
     Line lineTemperature;
+    Line lineRangeTemperature;
     Line lineRainfall;
 
     List<Measurement> measurementList;
@@ -104,7 +105,7 @@ public class DiagramsFragment extends Fragment implements Observer {
         valueRangeTemperature.add(new PointValue(0, TEMPERETURE_MAX));
         valueRangeTemperature.add(new PointValue(0, TEMPERETURE_MIN));
 
-        Line lineRangeTemperature = new Line(valueRangeTemperature).setColor(MainActivity.colorTransparent).setCubic(true).setFilled(true).setHasPoints(false);
+        lineRangeTemperature = new Line(valueRangeTemperature).setColor(MainActivity.colorTransparent).setCubic(true).setFilled(true).setHasPoints(false);
         lineTemperature = new Line().setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
 
         List<Line> linesTemperature = new ArrayList<>();
@@ -194,14 +195,21 @@ public class DiagramsFragment extends Fragment implements Observer {
     public void update(Observable o, Object arg) {
         if (!model.isSuccess()) {
             swipeRefreshLayout.setRefreshing(false);
-            Toast.makeText(getContext(), "Connection Failed", Toast.LENGTH_SHORT);
+            Toast.makeText(MainActivity.mainActivity, "Connection Failed", Toast.LENGTH_SHORT).show();
             return;
         }
         int i = 0;
-        lineTemperature.getValues().clear();
+
+        LineChartData data = new LineChartData(lineChartViewTemperature.getLineChartData());
+        data.getLines().clear();
+        Line line = new Line().setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
         for (Measurement measurement : model.getMeasurementList()) {
-            lineTemperature.getValues().add(new PointValue(i, measurement.getAmbientTemperature()));
-            i++;
+            line.getValues().add(new PointValue(i, measurement.getAmbientTemperature()));
+            System.out.println(measurement.getAmbientTemperature());
+            i += 5;
         }
+        data.getLines().add(line);
+        data.getLines().add(lineRangeTemperature);
+        lineChartViewTemperature.setLineChartData(data);
     }
 }

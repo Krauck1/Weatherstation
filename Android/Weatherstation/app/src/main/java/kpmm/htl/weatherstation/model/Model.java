@@ -28,7 +28,7 @@ import java.util.Observable;
 
 public class Model extends Observable {
 
-    private final String IPADRESS = "http://172.18.252.131:8080";
+    private final String IPADRESS = "http://172.18.3.74:8080";
     private final String LAST = "/last";
     private final String ALL = "/all";
     private final long DELAY = 5 * 60 * 1000;
@@ -76,6 +76,9 @@ public class Model extends Observable {
                     }
                 } catch (JSONException ex) {
                     System.out.println(ex.getMessage());
+                    success = false;
+                    setChanged();
+                    notifyObservers();
                 }
                 success = true;
                 Collections.sort(measurementList);
@@ -119,12 +122,17 @@ public class Model extends Observable {
                     notifyObservers();
                 } catch (JSONException ex) {
                     System.out.println(ex.getMessage());
+                    success = false;
+                    setChanged();
+                    notifyObservers();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                success = false;
+                setChanged();
+                notifyObservers();
             }
         });
         requestQueue.add(jsonObjectRequest);

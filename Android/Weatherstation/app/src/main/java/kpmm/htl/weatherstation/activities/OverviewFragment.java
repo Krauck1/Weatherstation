@@ -30,6 +30,7 @@ public class OverviewFragment extends Fragment implements Observer {
 
     Measurement lastMeasurement;
     Measurement compareMeasurement;
+    View view = null;
     Model model;
 
     TextView textViewCurrentTemperature;
@@ -50,15 +51,18 @@ public class OverviewFragment extends Fragment implements Observer {
     ImageView imageViewCompareRainfallDifference;
 
     public OverviewFragment() {
+        model = Model.getInstance();
+        model.addObserver(this);
     }
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        model = Model.getInstance();
-        model.addObserver(this);
-        View view = inflater.inflate(R.layout.content_overview, container, false);
+        System.out.println("testttt");
+        if (view == null)
+            view = inflater.inflate(R.layout.content_overview, container, false);
+        else
+            return view;
         mainActivity = MainActivity.mainActivity;
         textViewCurrentTemperature = (TextView) view.findViewById(R.id.overview_content_text_view_current_temperature);
         textViewCurrentHumidity = (TextView) view.findViewById(R.id.overview_content_text_view_current_humidity);
