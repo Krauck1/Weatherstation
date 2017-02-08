@@ -15,30 +15,30 @@ google.charts.load('current', {'packages':['corechart']});
           
            var rainarr = [
             ['Per 5 mins', 'Rain in mm'],
-          ['', 0.000001 ],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001]
+          ['', null ],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null]
         ];
           
          function addToRainArr(){
@@ -50,7 +50,7 @@ google.charts.load('current', {'packages':['corechart']});
              }
              else
                 for (var i = 1; i < rainarr.length; i++){
-                    if(rainarr[i][1]== 0.000001){
+                    if(rainarr[i][1]== null){
                         cnt++;
                         rainarr[i][1] = jsonData.rainfall;
                         break;    
@@ -58,30 +58,30 @@ google.charts.load('current', {'packages':['corechart']});
                 }
         }
         var windarr = [['Per 5 mins', 'Wind in km/h'],
-          ['', 11 ],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001]
+          ['', null ],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null]
         ];
 
         function addToWindArr(){
@@ -93,7 +93,7 @@ google.charts.load('current', {'packages':['corechart']});
              }
             else
                 for (var i = 0; i < windarr.length; i++){
-                    if(windarr[i][1]== 0.000001){
+                    if(windarr[i][1]== null){
                         cntWind++;
                         windarr[i][1] = jsonData.wind_speed;
                         break;    
@@ -102,30 +102,30 @@ google.charts.load('current', {'packages':['corechart']});
         }
 
         var temparaturearr = [['Per 5 mins', 'Temparature in °C'],
-          ['', 0.000001 ],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001]
+          ['', null ],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null]
         ];
 
         function addToTemperatureArr(){
@@ -137,7 +137,7 @@ google.charts.load('current', {'packages':['corechart']});
              }
             else
                 for (var i = 0; i < temparaturearr.length; i++){
-                    if(temparaturearr[i][1]== 0.000001){
+                    if(temparaturearr[i][1]== null){
                         cntTemperature++;
                         temparaturearr[i][1] = jsonData.ambient_temperature;
                         break;    
@@ -145,30 +145,30 @@ google.charts.load('current', {'packages':['corechart']});
                 }
         }
          var humidityarr =[['Per 5 mins', 'Humidity in %'],
-          ['', 0.000001 ],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001],
-          ['',  0.000001]
+          ['', null ],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null],
+          ['',  null]
         ];
 
         function addToHumidityArr(){
@@ -180,7 +180,7 @@ google.charts.load('current', {'packages':['corechart']});
              }
             else
                 for (var i = 0; i < humidityarr.length; i++){
-                    if(humidityarr[i][1]== 0.000001){
+                    if(humidityarr[i][1]== null){
                         cntHumidity++;
                         humidityarr[i][1] = jsonData.humidity;
                         break;    
@@ -190,12 +190,12 @@ google.charts.load('current', {'packages':['corechart']});
     
       function drawChart() {
           draw();
-          setInterval(draw,300000);
+          setInterval(draw,3000);
       }
 
     function getJson(){
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", "http://172.18.252.131:8080/last", false); // false for synchronous request
+        xmlHttp.open("GET", "http://172.18.3.74:8080/last", false); // false for synchronous request
         xmlHttp.send(null);
         jsonData = JSON.parse(xmlHttp.responseText);
         return xmlHttp.responseText;
@@ -271,3 +271,4 @@ google.charts.load('current', {'packages':['corechart']});
         var chart = new google.visualization.AreaChart(document.getElementById('chart_humity'));
         chart.draw(humData, humOptions);
       }
+
