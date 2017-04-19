@@ -3,11 +3,15 @@ from flask import Response
 import flask
 import web
 import json
-import responses
+#import responses
 import requests
 import mysql.connector
+import logging
 
 app = Flask(__name__)
+
+log = logging.getLogger('werkzeug') #flask logger
+log.setLevel(logging.CRITICAL)
 
 mysql_host = "localhost"
 mysql_user = "root"
