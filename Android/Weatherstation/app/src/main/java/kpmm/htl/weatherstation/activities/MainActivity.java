@@ -1,6 +1,10 @@
 package kpmm.htl.weatherstation.activities;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -8,6 +12,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -42,6 +48,7 @@ public class MainActivity extends AppCompatActivity
 
     private DiagramsFragment diagramsFragment;
     private OverviewFragment overviewFragment;
+    private NotificationsFragment notificationsFragment;
     Model model;
     static FragmentSelection fragmentSelection = FragmentSelection.OVERVIEW;
 
@@ -49,6 +56,27 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this).
+                setSmallIcon(R.drawable.ic_smoking).
+                setContentTitle("Test").
+                setContentText("Gaw");
+        Intent intent = new Intent(this, this.getClass());
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+// Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(this.getClass());
+// Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(intent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        builder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+// mId allows you to update the notification later on.
+        mNotificationManager.notify(1, builder.build());
+
         model = Model.getInstance();
         model.addObserver(this);
         model.setContext(getApplicationContext());
@@ -148,7 +176,8 @@ public class MainActivity extends AppCompatActivity
             }
         } else if (id == R.id.nav_notifications) {
             if (fragmentSelection != FragmentSelection.NOTIFICATIONS) {
-
+                fragmentSelection = FragmentSelection.NOTIFICATIONS;
+                changeFragment();
             }
         } else if (id == R.id.nav_recent) {
             if (fragmentSelection != FragmentSelection.RECENT) {
@@ -176,6 +205,10 @@ public class MainActivity extends AppCompatActivity
             case DIAGRAMS:
                 setTitle(R.string.title_diagrams);
                 changeFragment(diagramsFragment == null ? diagramsFragment = new DiagramsFragment() : diagramsFragment);
+                break;
+            case NOTIFICATIONS:
+                setTitle(R.string.title_notifications);
+                changeFragment(notificationsFragment == null ? notificationsFragment = new NotificationsFragment() : notificationsFragment);
                 break;
         }
     }

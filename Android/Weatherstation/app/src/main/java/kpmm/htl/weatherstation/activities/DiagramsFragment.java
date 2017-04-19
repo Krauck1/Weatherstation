@@ -40,6 +40,11 @@ public class DiagramsFragment extends Fragment implements Observer {
     private final int TEMPERETURE_MAX = 40;
     private final int TEMPERETURE_MIN = -20;
 
+    private final int RAINFALL_MAX = 100;
+    private final int RAINFALL_MIN = 0;
+
+    private
+
     LineChartView lineChartViewTemperature;
     LineChartView lineChartViewRainfall;
 
@@ -53,6 +58,7 @@ public class DiagramsFragment extends Fragment implements Observer {
     Line lineTemperature;
     Line lineRangeTemperature;
     Line lineRainfall;
+    Line lineRangeRainfall;
 
     List<Measurement> measurementList;
 
@@ -146,10 +152,10 @@ public class DiagramsFragment extends Fragment implements Observer {
 
         //region Set Rainfall Properties
         List<PointValue> valueRangeRainfall = new ArrayList<>();
-        valueRangeRainfall.add(new PointValue(0, TEMPERETURE_MAX));
-        valueRangeRainfall.add(new PointValue(0, TEMPERETURE_MIN));
+        valueRangeRainfall.add(new PointValue(0, RAINFALL_MAX));
+        valueRangeRainfall.add(new PointValue(0, RAINFALL_MIN));
 
-        Line lineRangeRainfall = new Line(valueRangeRainfall).setColor(MainActivity.colorTransparent).setCubic(true).setFilled(true).setHasPoints(false);
+        lineRangeRainfall = new Line(valueRangeRainfall).setColor(MainActivity.colorTransparent).setCubic(true).setFilled(true).setHasPoints(false);
         lineRainfall = new Line().setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
 
         List<Line> linesRainfall = new ArrayList<>();
@@ -205,11 +211,21 @@ public class DiagramsFragment extends Fragment implements Observer {
         Line line = new Line().setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
         for (Measurement measurement : model.getMeasurementList()) {
             line.getValues().add(new PointValue(i, measurement.getAmbientTemperature()));
-            System.out.println(measurement.getAmbientTemperature());
             i += 5;
         }
         data.getLines().add(line);
         data.getLines().add(lineRangeTemperature);
         lineChartViewTemperature.setLineChartData(data);
+
+        data = new LineChartData(lineChartViewRainfall.getLineChartData());
+        data.getLines().clear();
+        line = new Line().setColor(MainActivity.colorRainfall).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
+        for (Measurement measurement : model.getMeasurementList()) {
+            line.getValues().add(new PointValue(i, measurement.getRainfall()));
+            i += 5;
+        }
+        data.getLines().add(line);
+        data.getLines().add(lineRangeRainfall);
+        lineChartViewRainfall.setLineChartData(data);
     }
 }
