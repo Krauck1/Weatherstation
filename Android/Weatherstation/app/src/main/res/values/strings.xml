@@ -12,4 +12,7 @@
     <string name="bad_time">Bad Time</string>
     <string name="current_weather">Current Weather</string>
 
+    <string name="smoking">Smoking</string>
+    <string name="pause">Pause</string>
+
 </resources>
