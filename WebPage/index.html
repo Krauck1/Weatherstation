@@ -27,13 +27,26 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="js/chart.js"></script>
 
-    <script type="text/javascript" src="js/chart.js">
-        $(document).ready(function(){
 
-            $(document.body.appendChild(returnRain()))
-
-        });
+    <script type="text/javascript">
+        function getHum() {
+            document.getElementById("hum").innerHTML = getHumidity();
+        }
     </script>
+
+    <script type="text/javascript">
+        function getTemp() {
+            document.getElementById("temp").innerHTML = getTemperature();
+        }
+    </script>
+
+    <script type="text/javascript">
+        function getWin() {
+            document.getElementById("win").innerHTML = getWind();
+        }
+    </script>
+
+
 
     <!-- Theme CSS -->
     <link href="css/agency.min.css" rel="stylesheet">
@@ -47,7 +60,7 @@
 
 </head>
 
-<body id="page-top" class="index">
+<body id="page-top" class="index" onload="getTemp(), getHum(), getWin()">
 
     <!-- Navigation -->
     <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -115,9 +128,7 @@
                         <!-- <i class="fa fa-circle fa-stack-2x text-primary" aria-hidden="true"></i> -->
                     </span>
                     <h4 class="service-heading">Temperature</h4>
-                    <p class="text-muted" id="paragag222"></p>
-                    <p>document.body.appendChild(document.createTextNode(returnRain()));
-                    </p>
+                    <p class="text-muted" id="temp"></p>
 
                 </div>
                 <div class="col-md-4">
@@ -126,7 +137,8 @@
 
                     </span>
                     <h4 class="service-heading">Humidity</h4>
-                    <p class="text-muted">0</p>
+                    <p class="text-muted" id="hum"></p>
+
                 </div>
                 <div class="col-md-4">
                     <span class="fa-stack fa-4x">
@@ -134,7 +146,7 @@
 
                     </span>
                     <h4 class="service-heading">Wind</h4>
-                    <p class="text-muted">0</p>
+                    <p class="text-muted" id="win"></p>
                 </div>
             </div>
         </div>
