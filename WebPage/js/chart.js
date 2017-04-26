@@ -285,3 +285,6 @@ function getHumidity() {
 function getWind() {
     return jsonData.wind_speed;
 }
+function getTemperature() {
+	return jsonData.ambient_temperature;
+}

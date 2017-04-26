@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Agency - Start Bootstrap Theme</title>
+    <title>WeatherStation - HTL Leonding</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -32,21 +32,21 @@
         function getHum() {
             document.getElementById("hum").innerHTML = getHumidity();
         }
-    </script>
 
-    <script type="text/javascript">
         function getTemp() {
             document.getElementById("temp").innerHTML = getTemperature();
         }
-    </script>
 
-    <script type="text/javascript">
         function getWin() {
             document.getElementById("win").innerHTML = getWind();
         }
-    </script>
 
-
+		function refreshCurrentValues() {
+			getHum();
+			getWin();
+			getTemp();
+		}
+	</script>
 
     <!-- Theme CSS -->
     <link href="css/agency.min.css" rel="stylesheet">
@@ -60,7 +60,7 @@
 
 </head>
 
-<body id="page-top" class="index" onload="getTemp(), getHum(), getWin()">
+<body id="page-top" class="index" onload="refreshCurrentValues();"> 
 
     <!-- Navigation -->
     <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
