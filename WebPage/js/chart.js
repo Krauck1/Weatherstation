@@ -275,7 +275,7 @@ function draw(){
     chart.draw(humData, humOptions);
 }
 
-function getRain() {
+function getRainfall() {
     
     return jsonData.rainfall;
 }

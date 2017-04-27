@@ -41,10 +41,15 @@
             document.getElementById("win").innerHTML = getWind();
         }
 
+		function getRain() {
+			document.getElementById("rain").innerHTML = getRainfall();
+		}
+
 		function refreshCurrentValues() {
 			getHum();
 			getWin();
 			getTemp();
+			getRain();
 		}
 	</script>
 
@@ -122,7 +127,27 @@
                 </div>
             </div>
             <div class="row text-center">
-                <div class="col-md-4">
+
+                <div class="col-md-3">
+                    <span class="fa-stack fa-4x">
+                        <img src = "./img/weatherIcons/rain.png" class="img-centered"  style="width:60%;height: 60%;">
+                        <!-- <i class="fa fa-circle fa-stack-2x text-primary" aria-hidden="true"></i> -->
+                    </span>
+                    <h4 class="service-heading">Rain</h4>
+                    <p class="text-muted" id="rain"></p>
+
+                </div>
+				
+                <div class="col-md-3">
+                    <span class="fa-stack fa-4x">
+                        <img src = "./img/weatherIcons/wind.png" class="img-centered" style="width:60%;height: 60%;">
+
+                    </span>
+                    <h4 class="service-heading">Wind</h4>
+                    <p class="text-muted" id="win"></p>
+                </div>
+				
+                <div class="col-md-3">
                     <span class="fa-stack fa-4x">
                         <img src = "./img/weatherIcons/thermometer.png" class="img-centered"  style="width:60%;height: 60%;">
                         <!-- <i class="fa fa-circle fa-stack-2x text-primary" aria-hidden="true"></i> -->
@@ -131,22 +156,14 @@
                     <p class="text-muted" id="temp"></p>
 
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <span class="fa-stack fa-4x">
-                        <img src = "./img/weatherIcons/rain.png" class="img-centered" style="width:60%;height: 60%;">
+                        <img src = "./img/weatherIcons/hum.png" class="img-centered" style="width:60%;height: 60%;">
 
                     </span>
                     <h4 class="service-heading">Humidity</h4>
                     <p class="text-muted" id="hum"></p>
 
-                </div>
-                <div class="col-md-4">
-                    <span class="fa-stack fa-4x">
-                        <img src = "./img/weatherIcons/wind.png" class="img-centered" style="width:60%;height: 60%;">
-
-                    </span>
-                    <h4 class="service-heading">Wind</h4>
-                    <p class="text-muted" id="win"></p>
                 </div>
             </div>
         </div>
