@@ -184,8 +184,14 @@
                     map = new google.maps.Map(document.getElementById('map'), {
                         center: {lat: 48.268362, lng: 14.251463},
                         zoom: 18,
+                        scrollwheel:false,
                         mapTypeId: 'hybrid'
                     });
+                    var marker = new google.maps.Marker({
+                        position: {lat: 48.268676, lng: 14.251602},
+                        map: map
+                    });
+
                 }
 
             </script>
