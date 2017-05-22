@@ -30,19 +30,19 @@
 
     <script type="text/javascript">
         function getHum() {
-            document.getElementById("hum").innerHTML = getHumidity();
+            document.getElementById("hum").innerHTML = getHumidity()+ "%";
         }
 
         function getTemp() {
-            document.getElementById("temp").innerHTML = getTemperature();
+            document.getElementById("temp").innerHTML = getTemperature() + " °C";
         }
 
         function getWin() {
-            document.getElementById("win").innerHTML = getWind();
+            document.getElementById("win").innerHTML = getWind()+ " Km/h";
         }
 
 		function getRain() {
-			document.getElementById("rain").innerHTML = getRainfall();
+			document.getElementById("rain").innerHTML = getRainfall() + "%";
 		}
 
 		function refreshCurrentValues() {
