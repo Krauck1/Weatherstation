@@ -275,7 +275,7 @@ function draw(){
     chart.draw(humData, humOptions);
 }
 
-function getRain() {
+function getRainfall() {
     
     return jsonData.rainfall;
 }
@@ -284,4 +284,7 @@ function getHumidity() {
 }
 function getWind() {
     return jsonData.wind_speed;
+}
+function getTemperature() {
+	return jsonData.ambient_temperature;
 }

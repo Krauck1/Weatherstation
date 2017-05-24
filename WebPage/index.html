@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Agency - Start Bootstrap Theme</title>
+    <title>WeatherStation - HTL Leonding</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -30,23 +30,28 @@
 
     <script type="text/javascript">
         function getHum() {
-            document.getElementById("hum").innerHTML = getHumidity();
+            document.getElementById("hum").innerHTML = getHumidity()+ "%";
         }
-    </script>
 
-    <script type="text/javascript">
         function getTemp() {
-            document.getElementById("temp").innerHTML = getTemperature();
+            document.getElementById("temp").innerHTML = getTemperature() + " °C";
         }
-    </script>
 
-    <script type="text/javascript">
         function getWin() {
-            document.getElementById("win").innerHTML = getWind();
+            document.getElementById("win").innerHTML = getWind()+ " Km/h";
         }
-    </script>
 
+		function getRain() {
+			document.getElementById("rain").innerHTML = getRainfall() + "%";
+		}
 
+		function refreshCurrentValues() {
+			getHum();
+			getWin();
+			getTemp();
+			getRain();
+		}
+	</script>
 
     <!-- Theme CSS -->
     <link href="css/agency.min.css" rel="stylesheet">
@@ -60,7 +65,7 @@
 
 </head>
 
-<body id="page-top" class="index" onload="getTemp(), getHum(), getWin()">
+<body id="page-top" class="index" onload="refreshCurrentValues();"> 
 
     <!-- Navigation -->
     <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -122,7 +127,27 @@
                 </div>
             </div>
             <div class="row text-center">
-                <div class="col-md-4">
+
+                <div class="col-md-3">
+                    <span class="fa-stack fa-4x">
+                        <img src = "./img/weatherIcons/rain.png" class="img-centered"  style="width:60%;height: 60%;">
+                        <!-- <i class="fa fa-circle fa-stack-2x text-primary" aria-hidden="true"></i> -->
+                    </span>
+                    <h4 class="service-heading">Rain</h4>
+                    <p class="text-muted" id="rain"></p>
+
+                </div>
+				
+                <div class="col-md-3">
+                    <span class="fa-stack fa-4x">
+                        <img src = "./img/weatherIcons/wind.png" class="img-centered" style="width:60%;height: 60%;">
+
+                    </span>
+                    <h4 class="service-heading">Wind</h4>
+                    <p class="text-muted" id="win"></p>
+                </div>
+				
+                <div class="col-md-3">
                     <span class="fa-stack fa-4x">
                         <img src = "./img/weatherIcons/thermometer.png" class="img-centered"  style="width:60%;height: 60%;">
                         <!-- <i class="fa fa-circle fa-stack-2x text-primary" aria-hidden="true"></i> -->
@@ -131,22 +156,14 @@
                     <p class="text-muted" id="temp"></p>
 
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <span class="fa-stack fa-4x">
-                        <img src = "./img/weatherIcons/rain.png" class="img-centered" style="width:60%;height: 60%;">
+                        <img src = "./img/weatherIcons/hum.png" class="img-centered" style="width:60%;height: 60%;">
 
                     </span>
                     <h4 class="service-heading">Humidity</h4>
                     <p class="text-muted" id="hum"></p>
 
-                </div>
-                <div class="col-md-4">
-                    <span class="fa-stack fa-4x">
-                        <img src = "./img/weatherIcons/wind.png" class="img-centered" style="width:60%;height: 60%;">
-
-                    </span>
-                    <h4 class="service-heading">Wind</h4>
-                    <p class="text-muted" id="win"></p>
                 </div>
             </div>
         </div>
@@ -167,8 +184,14 @@
                     map = new google.maps.Map(document.getElementById('map'), {
                         center: {lat: 48.268362, lng: 14.251463},
                         zoom: 18,
+                        scrollwheel:false,
                         mapTypeId: 'hybrid'
                     });
+                    var marker = new google.maps.Marker({
+                        position: {lat: 48.268676, lng: 14.251602},
+                        map: map
+                    });
+
                 }
 
             </script>
@@ -199,7 +222,7 @@
         </div>
     </section>
 
-    <!-- About Section --><!--
+    <!-- About Section -->
     <section id="about">
         <div class="container">
             <div class="row">
@@ -212,7 +235,7 @@
                     <ul class="timeline">
                         <li>
                             <div class="timeline-image">
-                                <img class="img-circle img-responsive" src="img/about/1.png" alt="">
+                                <img class="img-circle img-responsive" src="img/about/rp.png" alt="">
                             </div>
                             <div class="timeline-panel">
                                 <div class="timeline-heading">
@@ -223,60 +246,11 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="timeline-inverted">
-                            <div class="timeline-image">
-                                <img class="img-circle img-responsive" src="img/about/2.jpg" alt="">
-                            </div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4 class="subheading">An Agency is Born</h4>
-                                </div>
-                                <div class="timeline-body">
-                                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="timeline-image">
-                                <img class="img-circle img-responsive" src="img/about/3.jpg" alt="">
-                            </div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4>December 2012</h4>
-                                    <h4 class="subheading">Transition to Full Service</h4>
-                                </div>
-                                <div class="timeline-body">
-                                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="timeline-inverted">
-                            <div class="timeline-image">
-                                <img class="img-circle img-responsive" src="img/about/4.jpg" alt="">
-                            </div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4>July 2014</h4>
-                                    <h4 class="subheading">Phase Two Expansion</h4>
-                                </div>
-                                <div class="timeline-body">
-                                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="timeline-inverted">
-                            <div class="timeline-image">
-                                <h4>Be Part
-                                    <br>Of Our
-                                    <br>Story!</h4>
-                            </div>
-                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
--->
     <!-- Team Section -->
     <section id="team" class="bg-light-gray"style="padding-top: 20px;">
         <div class="container">
@@ -310,12 +284,11 @@
 
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <div class="team-member" style="margin:auto">
+                <div class="row">
+                    <div class="team-member" style="align:center;">
                         <img src="img/team/jonas.jpg" class="img-responsive img-circle" alt="">
                         <h4>Jonas Müller</h4>
                         <p class="text-muted">Project Member</p>
-
                     </div>
                 </div>
             </div>
@@ -333,6 +306,8 @@
             <div class="row">
                 <div class="col-md-4">
                     <span class="copyright">Copyright &copy; Weatherstation 2017</span>
+                    </br>
+                    <span>Icons made by <a href="http://www.flaticon.com/authors/yannick">Yannick</a> from www.flaticon.com</span>
                 </div>
 
             </div>
