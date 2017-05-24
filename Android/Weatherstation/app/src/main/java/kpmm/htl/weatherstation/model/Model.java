@@ -1,7 +1,10 @@
 package kpmm.htl.weatherstation.model;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,7 +18,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +37,15 @@ import java.util.Observable;
  */
 
 public class Model extends Observable {
+    private static final String PATH = "weatherstationconfig.txt";
+
+    private boolean smoking = false;
+    private boolean notifications = false;
+    private byte monday = (byte) 0;
+    private byte tuesday = (byte) 0;
+    private byte wednesday = (byte) 0;
+    private byte thursday = (byte) 0;
+    private byte friday = (byte) 0;
 
     private final String IPADRESS = "http://172.18.3.74:8080";
     private final String LAST = "/last";
@@ -46,10 +65,11 @@ public class Model extends Observable {
     public void setContext(Context context) {
         this.context = context;
         requestLastMeasurement();
+        //saveData();
+        loadData();
     }
 
     private Model() {
-
     }
 
     private void receiveDataArrayFromREST(String url) {
@@ -143,7 +163,7 @@ public class Model extends Observable {
         receiveDataObjectFromREST(IPADRESS + LAST);
     }
 
-    public void requestAllMeasurements(){
+    public void requestAllMeasurements() {
         receiveDataArrayFromREST(IPADRESS + ALL);
     }
 
@@ -174,5 +194,102 @@ public class Model extends Observable {
 
     public boolean isSuccess() {
         return success;
+    }
+
+    public boolean isSmoking() {
+        return smoking;
+    }
+
+    public void setSmoking(boolean smoking) {
+        this.smoking = smoking;
+        saveData();
+    }
+
+    public byte getMonday() {
+        return monday;
+    }
+
+    public void setMonday(byte monday) {
+        this.monday = monday;
+        saveData();
+    }
+
+    public byte getTuesday() {
+        return tuesday;
+    }
+
+    public void setTuesday(byte tuesday) {
+        this.tuesday = tuesday;
+        saveData();
+    }
+
+    public byte getWednesday() {
+        return wednesday;
+    }
+
+    public void setWednesday(byte wednesday) {
+        this.wednesday = wednesday;
+        saveData();
+    }
+
+    public byte getThursday() {
+        return thursday;
+    }
+
+    public void setThursday(byte thursday) {
+        this.thursday = thursday;
+        saveData();
+    }
+
+    public byte getFriday() {
+        return friday;
+    }
+
+    public void setFriday(byte friday) {
+        this.friday = friday;
+        saveData();
+    }
+
+    public boolean isNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(boolean notifications) {
+        this.notifications = notifications;
+        saveData();
+    }
+
+    private void saveData() {
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(context.getFilesDir().getPath() + "/" + PATH));
+            bufferedWriter.write((smoking ? 1 : 0) + ";" + monday + ";" + tuesday + ";" + wednesday + ";" + thursday + ";" + friday + ";" + (notifications ? 1 : 0));
+            bufferedWriter.close();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    private void loadData() {
+        try {
+            if (!new File(context.getFilesDir().getPath() + "/" + PATH).exists()) {
+                saveData();
+                return;
+            }
+
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(context.getFilesDir().getPath() + "/" + PATH));
+            String str = bufferedReader.readLine();
+            System.out.println(str);
+            bufferedReader.close();
+            String[] split = str.split(";");
+            smoking = split[0].charAt(0) == '1';
+            monday = Byte.parseByte(split[1]);
+            tuesday = Byte.parseByte(split[2]);
+            wednesday = Byte.parseByte(split[3]);
+            thursday = Byte.parseByte(split[4]);
+            friday = Byte.parseByte(split[5]);
+            notifications = split[6].charAt(0) == '1';
+        } catch (IOException ex) {
+            System.out.println("load Error");
+        }
     }
 }

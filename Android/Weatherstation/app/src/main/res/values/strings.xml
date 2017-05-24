@@ -15,4 +15,6 @@
     <string name="smoking">Smoking</string>
     <string name="pause">Pause</string>
 
+    <string name="notifications_disabled">notifications currently disabled</string>
+
 </resources>

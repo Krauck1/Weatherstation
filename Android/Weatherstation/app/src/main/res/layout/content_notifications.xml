@@ -15,7 +15,15 @@
         android:text="Enable Notifications"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/notifications_content_text_view_disabled"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/notifications_disabled" />
     <ScrollView
+        android:id="@+id/notifications_content_scroll_view"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white">
@@ -50,12 +58,14 @@
                     android:layout_marginTop="10dp">
 
                     <Switch
+                        android:id="@+id/notifications_content_switch_smoking"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Enable if you want Notifications for ideal Breaks for Smoking" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/notifications_content_linear_layout_hours"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -73,7 +83,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:elevation="4dp"
-                        android:background="#fff">
+                        android:background="#fff"
+                        android:padding="4dp">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -109,6 +120,7 @@
                                 android:text="Tue" />
 
                             <NumberPicker
+                                android:id="@+id/notifications_content_number_picker_tuesday"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1" />
@@ -128,6 +140,7 @@
                                 android:text="Wed" />
 
                             <NumberPicker
+                                android:id="@+id/notifications_content_number_picker_wednesday"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1" />
@@ -147,6 +160,7 @@
                                 android:text="Thu" />
 
                             <NumberPicker
+                                android:id="@+id/notifications_content_number_picker_thursday"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1" />
@@ -166,6 +180,7 @@
                                 android:text="Fri" />
 
                             <NumberPicker
+                                android:id="@+id/notifications_content_number_picker_friday"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1" />
