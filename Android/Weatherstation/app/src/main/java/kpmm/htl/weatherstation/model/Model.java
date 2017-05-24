@@ -27,9 +27,15 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
+
+import kpmm.htl.weatherstation.receivers.AlarmReceiver;
+
+import static android.content.Context.ALARM_SERVICE;
+import static android.content.Context.CAMERA_SERVICE;
 
 
 /**
@@ -38,6 +44,7 @@ import java.util.Observable;
 
 public class Model extends Observable {
     private static final String PATH = "weatherstationconfig.txt";
+    private static final boolean TEST = true;
 
     private boolean smoking = false;
     private boolean notifications = false;
@@ -46,6 +53,7 @@ public class Model extends Observable {
     private byte wednesday = (byte) 0;
     private byte thursday = (byte) 0;
     private byte friday = (byte) 0;
+    private long[] millisOfDay = {31800000, 35100000, 39000000, 42300000, 45600000, 48900000, 52200000, 55500000, 58800000};
 
     private final String IPADRESS = "http://172.18.3.74:8080";
     private final String LAST = "/last";
@@ -67,6 +75,18 @@ public class Model extends Observable {
         requestLastMeasurement();
         //saveData();
         loadData();
+
+        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        long timeOfDay = calendar.getTimeInMillis();
+        System.out.println(System.currentTimeMillis() + " - " + timeOfDay + millisOfDay[7]);
+        alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), timeOfDay + millisOfDay[7], pendingIntent);
     }
 
     private Model() {
@@ -108,9 +128,35 @@ public class Model extends Observable {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                success = false;
-                setChanged();
-                notifyObservers();
+                if (TEST) {
+                    try {
+                        JSONArray response = new JSONArray("[{\"ground_temperature\": 22.0, \"wind_speed\": 40.0, \"rainfall\": 60.0, \"created\": \"2017-01-11 16:54:21\", \"ambient_temperature\": 20.0, \"air_quality\": 20.0, \"air_pressure\": 5.2, \"humidity\": 60.1, \"wind_gust_speed\": 10.0}, {\"ground_temperature\": 21.0, \"wind_speed\": 10.0, \"rainfall\": 70.0, \"created\": \"2017-01-11 16:54:43\", \"ambient_temperature\": 30.0, \"air_quality\": 30.0, \"air_pressure\": 8.2, \"humidity\": 10.1, \"wind_gust_speed\": 1.0}, {\"ground_temperature\": 31.0, \"wind_speed\": 10.0, \"rainfall\": 70.0, \"created\": \"2017-01-11 17:02:27\", \"ambient_temperature\": 10.0, \"air_quality\": 40.0, \"air_pressure\": 8.2, \"humidity\": 10.1, \"wind_gust_speed\": 1.0}, {\"ground_temperature\": 31.0, \"wind_speed\": 10.0, \"rainfall\": 70.0, \"created\": \"2017-01-11 17:03:24\", \"ambient_temperature\": 10.0, \"air_quality\": 40.0, \"air_pressure\": 8.2, \"humidity\": 10.1, \"wind_gust_speed\": 1.0}, {\"ground_temperature\": 31.0, \"wind_speed\": 10.0, \"rainfall\": 70.0, \"created\": \"2017-01-11 17:03:27\", \"ambient_temperature\": 10.0, \"air_quality\": 40.0, \"air_pressure\": 8.2, \"humidity\": 10.1, \"wind_gust_speed\": 1.0}, {\"ground_temperature\": 31.0, \"wind_speed\": 10.0, \"rainfall\": 70.0, \"created\": \"2017-01-11 17:05:33\", \"ambient_temperature\": 10.0, \"air_quality\": 40.0, \"air_pressure\": 8.2, \"humidity\": 10.1, \"wind_gust_speed\": 1.0}, {\"ground_temperature\": 31.0, \"wind_speed\": 10.0, \"rainfall\": 70.0, \"created\": \"2017-01-11 17:05:42\", \"ambient_temperature\": 10.0, \"air_quality\": 40.0, \"air_pressure\": 8.2, \"humidity\": 10.1, \"wind_gust_speed\": 1.0}, {\"ground_temperature\": 31.0, \"wind_speed\": 10.0, \"rainfall\": 70.0, \"created\": \"2017-01-12 14:44:37\", \"ambient_temperature\": 10.0, \"air_quality\": 40.0, \"air_pressure\": 8.2, \"humidity\": 10.1, \"wind_gust_speed\": 1.0}, {\"ground_temperature\": 31.0, \"wind_speed\": 10.0, \"rainfall\": 70.0, \"created\": \"2017-01-12 14:45:36\", \"ambient_temperature\": 10.0, \"air_quality\": 40.0, \"air_pressure\": 8.2, \"humidity\": 10.1, \"wind_gust_speed\": 1.0}, {\"ground_temperature\": 31.0, \"wind_speed\": 10.0, \"rainfall\": 70.0, \"created\": \"2017-01-12 18:24:16\", \"ambient_temperature\": 10.0, \"air_quality\": 40.0, \"air_pressure\": 8.2, \"humidity\": 10.1, \"wind_gust_speed\": 1.0}, {\"ground_temperature\": 31.0, \"wind_speed\": 10.0, \"rainfall\": 70.0, \"created\": \"2017-01-12 18:28:14\", \"ambient_temperature\": 10.0, \"air_quality\": 40.0, \"air_pressure\": 8.2, \"humidity\": 10.1, \"wind_gust_speed\": 1.0}, {\"ground_temperature\": 31.0, \"wind_speed\": 10.0, \"rainfall\": 70.0, \"created\": \"2017-01-12 18:34:51\", \"ambient_temperature\": 10.0, \"air_quality\": 40.0, \"air_pressure\": 8.2, \"humidity\": 10.1, \"wind_gust_speed\": 1.0}, {\"ground_temperature\": 31.0, \"wind_speed\": 10.0, \"rainfall\": 70.0, \"created\": \"2017-01-12 18:45:32\", \"ambient_temperature\": 10.0, \"air_quality\": 40.0, \"air_pressure\": 8.2, \"humidity\": 10.1, \"wind_gust_speed\": 1.0}]");
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject jsonObject = response.getJSONObject(i);
+                            Measurement measurement = new Measurement(
+                                    (float) jsonObject.getDouble("ambient_temperature"),
+                                    (float) jsonObject.getDouble("ground_temperature"),
+                                    (float) jsonObject.getDouble("air_quality"),
+                                    (float) jsonObject.getDouble("air_pressure"),
+                                    (float) jsonObject.getDouble("humidity"),
+                                    (float) jsonObject.getDouble("wind_speed"),
+                                    (float) jsonObject.getDouble("wind_gust_speed"),
+                                    (float) jsonObject.getDouble("rainfall"),
+                                    Timestamp.valueOf(jsonObject.getString("created")));
+                            measurementList.add(0, measurement);
+                        }
+                        success = true;
+                        Collections.sort(measurementList);
+                        setChanged();
+                        notifyObservers();
+                    } catch (JSONException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                } else {
+                    success = false;
+                    setChanged();
+                    notifyObservers();
+                }
             }
         });
         requestQueue.add(jsonArrayRequest);

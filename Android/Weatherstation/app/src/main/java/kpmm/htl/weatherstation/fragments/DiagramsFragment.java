@@ -1,4 +1,4 @@
-package kpmm.htl.weatherstation.activities;
+package kpmm.htl.weatherstation.fragments;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -20,6 +20,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import kpmm.htl.weatherstation.R;
+import kpmm.htl.weatherstation.activities.MainActivity;
 import kpmm.htl.weatherstation.model.Measurement;
 import kpmm.htl.weatherstation.model.Model;
 import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;

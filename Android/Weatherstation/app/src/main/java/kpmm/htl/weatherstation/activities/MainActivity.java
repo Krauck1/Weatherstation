@@ -1,6 +1,5 @@
 package kpmm.htl.weatherstation.activities;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -9,14 +8,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,12 +22,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import java.util.Observable;
 import java.util.Observer;
 
 import kpmm.htl.weatherstation.R;
+import kpmm.htl.weatherstation.fragments.DiagramsFragment;
+import kpmm.htl.weatherstation.fragments.NotificationsFragment;
+import kpmm.htl.weatherstation.fragments.OverviewFragment;
 import kpmm.htl.weatherstation.model.Model;
 
 public class MainActivity extends AppCompatActivity
@@ -56,27 +58,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this).
-                setSmallIcon(R.drawable.ic_smoking).
-                setContentTitle("Test").
-                setContentText("Gaw");
-        Intent intent = new Intent(this, this.getClass());
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-// Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(this.getClass());
-// Adds the Intent that starts the Activity to the top of the stack
-        stackBuilder.addNextIntent(intent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-        builder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-// mId allows you to update the notification later on.
-        mNotificationManager.notify(1, builder.build());
-
         model = Model.getInstance();
         model.addObserver(this);
         model.setContext(getApplicationContext());

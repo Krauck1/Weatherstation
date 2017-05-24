@@ -1,4 +1,4 @@
-package kpmm.htl.weatherstation.activities;
+package kpmm.htl.weatherstation.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
