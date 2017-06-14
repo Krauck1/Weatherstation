@@ -10,9 +10,8 @@ var cntWind = 0;
 var cntTemperature = 0;
 var cntHumidity = 0;
 
-var jsonData = {"ground_temperature": 31.0, "wind_speed": 10.0, "rainfall": 70.0, "created": "2017-01-12 18:34:51", "ambient_temperature": 10.0, "air_quality": 40.0, "air_pressure": 8.2, "humidity": 10.1, "wind_gust_speed": 1.0};
-
-
+var jsonData = {"ground_temperature": 31.0, "wind_speed": 10.0, "rainfall": 10.0, "created": "2017-01-12 18:34:51", "ambient_temperature": 20.0, "air_quality": 40.0, "air_pressure": 8.2, "humidity": 10.1, "wind_gust_speed": 1.0};
+    //getJson is to get the data from the rest
     //getJson();
 
 
@@ -193,7 +192,7 @@ function addToHumidityArr(){
 
 function drawChart() {
     draw();
-    setInterval(draw,3000);
+    setInterval(draw,3000);     //time to redraw charts
 }
 
 function getJson(){
