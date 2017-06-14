@@ -10,7 +10,7 @@ var cntWind = 0;
 var cntTemperature = 0;
 var cntHumidity = 0;
 
-var jsonData; /*= {"ground_temperature": 31.0, "wind_speed": 10.0, "rainfall": 70.0, "created": "2017-01-12 18:34:51", "ambient_temperature": 10.0, "air_quality": 40.0, "air_pressure": 8.2, "humidity": 10.1, "wind_gust_speed": 1.0};*/
+var jsonData = {"ground_temperature": 31.0, "wind_speed": 10.0, "rainfall": 70.0, "created": "2017-01-12 18:34:51", "ambient_temperature": 10.0, "air_quality": 40.0, "air_pressure": 8.2, "humidity": 10.1, "wind_gust_speed": 1.0};
 
 
     //getJson();
@@ -205,7 +205,7 @@ function getJson(){
 }
 
 function draw(){
-    getJson();
+    //getJson();
     refreshCurrentValues();
     addToRainArr();
 
@@ -307,6 +307,18 @@ function refreshRain() {
 }
 
 function refreshCurrentValues() {
+    var h = document.getElementById("header");
+    if (jsonData.ambient_temperature < 0 && jsonData.rainfall > 0)
+        h.style.backgroundImage = "url('./img/snowy.jpg')"; /*path is relative to the root of the website*/
+    else if (jsonData.ambient_temperature >= 20 && jsonData.rainfall <= 0)
+        h.style.backgroundImage = "url('./img/sunny.jpg')"; /*path is relative to the root of the website*/
+    else if (jsonData.ambient_temperature > 1 && jsonData.rainfall > 0)
+        h.style.backgroundImage = "url('./img/rainy.jpg')"; /*path is relative to the root of the website*/
+    else if (jsonData.ambient_temperature <= 15 && jsonData.rainfall <= 0)
+        h.style.backgroundImage = "url('./img/cloudy.jpg')"; /*path is relative to the root of the website*/
+    else if (jsonData.ambient_temperature <= 15 && jsonData.rainfall > 0)
+        h.style.backgroundImage = "url('./img/thundery.jpg')"; /*path is relative to the root of the website*/
+
     refreshHum();
     refreshTemp();
     refreshWin();
