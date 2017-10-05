@@ -14,6 +14,14 @@ var jsonData = {"ground_temperature": 31.0, "wind_speed": 10.0, "rainfall": 10.0
     //getJson is to get the data from the rest
     //getJson();
 
+function getJson(){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", "http://172.18.3.74:8080/last", false); // false for synchronous request //Here type in the IP
+    xmlHttp.send(null);
+    jsonData = JSON.parse(xmlHttp.responseText);
+    return xmlHttp.responseText;
+}
+
 
 var rainarr = [
     ['Per 5 mins', 'Rain in mm'],
@@ -195,13 +203,6 @@ function drawChart() {
     setInterval(draw,3000);     //time to redraw charts
 }
 
-function getJson(){
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "http://172.18.3.74:8080/last", false); // false for synchronous request
-    xmlHttp.send(null);
-    jsonData = JSON.parse(xmlHttp.responseText);
-    return xmlHttp.responseText;
-}
 
 function draw(){
     //getJson();
