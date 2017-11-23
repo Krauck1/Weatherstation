@@ -12,9 +12,9 @@
     <string name="bad_time">Bad Time</string>
     <string name="current_weather">Current Weather</string>
 
-    <string name="smoking">Smoking</string>
+    <string name="going_outside">Going Outside</string>
     <string name="pause">Pause</string>
 
     <string name="notifications_disabled">notifications currently disabled</string>
-
+    <string name="notification_going_outside">Enable if you want Notifications for ideal Breaks for going outside</string>
 </resources>

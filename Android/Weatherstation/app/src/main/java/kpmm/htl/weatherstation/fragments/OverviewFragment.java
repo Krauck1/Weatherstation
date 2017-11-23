@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,8 @@ import kpmm.htl.weatherstation.model.Model;
 public class OverviewFragment extends Fragment implements Observer {
 
     MainActivity mainActivity;
+
+    LinearLayout linearLayout;
 
     Measurement lastMeasurement;
     Measurement compareMeasurement;
@@ -59,7 +62,6 @@ public class OverviewFragment extends Fragment implements Observer {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        System.out.println("testttt");
         if (view == null)
             view = inflater.inflate(R.layout.content_overview, container, false);
         else
@@ -80,6 +82,7 @@ public class OverviewFragment extends Fragment implements Observer {
         imageViewCompareHumidityDifference = (ImageView) view.findViewById(R.id.overview_content_image_view_compare_humidity_difference);
         imageViewCompareRainfallDifference = (ImageView) view.findViewById(R.id.overview_content_image_view_compare_rainfall_difference);
 
+        linearLayout = (LinearLayout)view.findViewById(R.id.overview_content_linear_layout_background);
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.overview_content_swipe_refresh_layout);
 
@@ -153,18 +156,21 @@ public class OverviewFragment extends Fragment implements Observer {
         if (lastMeasurement.getRainfall() < 1) {
             imageViewCurrentWeather.setImageResource(R.drawable.ic_sunny);
             textViewHeadingCurrentWeather.setTextColor(ColorStateList.valueOf(MainActivity.colorTemperature));
+            linearLayout.setBackgroundResource(R.drawable.sunny);
         } else {
             if (lastMeasurement.getAmbientTemperature() < 0) {
                 imageViewCurrentWeather.setImageResource(R.drawable.ic_snowflake);
                 textViewHeadingCurrentWeather.setTextColor(ColorStateList.valueOf(MainActivity.colorSnow));
-
+                linearLayout.setBackgroundResource(R.drawable.snowy);
             } else if (lastMeasurement.getAmbientTemperature() > 30) {
                 imageViewCurrentWeather.setImageResource(R.drawable.ic_eclipse);
                 textViewHeadingCurrentWeather.setTextColor(ColorStateList.valueOf(MainActivity.colorEclipse));
+                linearLayout.setBackgroundResource(R.drawable.sunny);
             } else {
                 imageViewCurrentWeather.setImageResource(R.drawable.ic_rain);
                 textViewHeadingCurrentWeather.setTextColor(ColorStateList.valueOf(MainActivity.colorRainfall));
-                imageViewSmoking.setImageResource(R.drawable.ic_no_smoking);
+                linearLayout.setBackgroundResource(R.drawable.rainy);
+                imageViewSmoking.setImageResource(R.drawable.ic_inside);
                 textViewSmoking.setText(R.string.bad_time);
             }
         }

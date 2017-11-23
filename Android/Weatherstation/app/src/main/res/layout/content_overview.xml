@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     android:id="@+id/content_overview"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -12,15 +11,15 @@
             android:id="@+id/overview_content_swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"
             android:clipToPadding="false"
             tools:context="kpmm.htl.weatherstation.activities.MainActivity"
             tools:showIn="@layout/app_bar_main">
 
             <LinearLayout
+                android:id="@+id/overview_content_linear_layout_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/white"
+                android:background="@drawable/cloudy"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -138,7 +137,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:text="Smoking"
+                        android:text="@string/going_outside"
                         android:textColor="#9E9E9E"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -168,7 +167,7 @@
                             android:layout_height="@dimen/size_small_image"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
-                            android:src="@drawable/ic_smoking" />
+                            android:src="@drawable/ic_outside" />
                     </RelativeLayout>
                 </LinearLayout>
 

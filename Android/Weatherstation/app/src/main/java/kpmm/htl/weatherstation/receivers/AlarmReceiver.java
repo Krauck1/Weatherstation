@@ -26,7 +26,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         if (dayOfWeek != 1 && dayOfWeek != 7) {
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
-                            .setSmallIcon(R.drawable.ic_smoking)
+                            .setSmallIcon(R.drawable.ic_outside)
                             .setContentTitle(context.getResources().getString(R.string.action_refresh))
                             .setContentText(context.getResources().getString(R.string.action_refresh));
             Intent resultIntent = new Intent(context, MainActivity.class);
