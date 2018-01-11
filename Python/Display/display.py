@@ -82,7 +82,6 @@ while True:
 
 	cnt = 0
 	for i in netifaces.interfaces():
-		print(i)
 		try:
 			ip = str(netifaces.ifaddresses(i)[2][0]['addr'])
 			# only display interfaces which aren't local
@@ -91,7 +90,6 @@ while True:
 				draw.text((6,10 * cnt + 10), ip, font=font)
 				cnt += 2
 		except:
-			print("no ip for" + i)
 
 	# Display image.
 	disp.image(image)
