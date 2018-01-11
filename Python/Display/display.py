@@ -90,7 +90,7 @@ while True:
 				draw.text((6,10 * cnt + 10), ip, font=font)
 				cnt += 2
 		except:
-
+                    continue
 	# Display image.
 	disp.image(image)
 	disp.display()
