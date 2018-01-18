@@ -144,13 +144,13 @@ function addToTemperatureArr(){
         for(var i = 1; i<temparaturearr.length-1;i++){
             temparaturearr[i][1] = temparaturearr[i][1];
         }
-        temparaturearr[temparaturearr.length-1][1]=jsonData.ambient_temperature;
+        temparaturearr[temparaturearr.length-1][1]=jsonData.ground_temperature;
     }
     else
         for (var i = 0; i < temparaturearr.length; i++){
             if(temparaturearr[i][1]== null){
                 cntTemperature++;
-                temparaturearr[i][1] = jsonData.ambient_temperature;
+                temparaturearr[i][1] = jsonData.ground_temperature;
                 break;
             }
         }
