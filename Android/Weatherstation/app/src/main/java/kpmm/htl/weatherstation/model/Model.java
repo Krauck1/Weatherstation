@@ -55,7 +55,7 @@ public class Model extends Observable {
     private byte friday = (byte) 0;
     private long[] millisOfDay = {31800000, 35100000, 39000000, 42300000, 45600000, 48900000, 52200000, 55500000, 58800000};
 
-    private final String IPADRESS = "http://172.18.3.74:8080";
+    private final String IPADRESS = "http://192.168.1.72:8080";
     private final String LAST = "/last";
     private final String ALL = "/all";
     private final long DELAY = 5 * 60 * 1000;
@@ -80,13 +80,18 @@ public class Model extends Observable {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         long timeOfDay = calendar.getTimeInMillis();
-        System.out.println(System.currentTimeMillis() + " - " + timeOfDay + millisOfDay[7]);
-        alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), timeOfDay + millisOfDay[7], pendingIntent);
+
+
+        System.out.println(System.currentTimeMillis() + " - " + timeOfDay + millisOfDay[0]);
+        for(long millis:millisOfDay){
+            alarmManager.setRepeating(AlarmManager.RTC, timeOfDay+millis, AlarmManager.INTERVAL_DAY*7, pendingIntent);
+        }
     }
 
     private Model() {

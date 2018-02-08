@@ -27,8 +27,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
                             .setSmallIcon(R.drawable.ic_outside)
-                            .setContentTitle(context.getResources().getString(R.string.action_refresh))
-                            .setContentText(context.getResources().getString(R.string.action_refresh));
+                            .setContentTitle(context.getResources().getString(R.string.app_name))
+                            .setContentText(context.getResources().getString(R.string.notification_text_going_outside));
             Intent resultIntent = new Intent(context, MainActivity.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
             stackBuilder.addParentStack(MainActivity.class);

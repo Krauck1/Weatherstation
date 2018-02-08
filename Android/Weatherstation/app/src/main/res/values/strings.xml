@@ -17,4 +17,7 @@
 
     <string name="notifications_disabled">notifications currently disabled</string>
     <string name="notification_going_outside">Enable if you want Notifications for ideal Breaks for going outside</string>
+
+    <string name="notification_text_going_outside">Currently it is good to outside for fresh air.</string>
+    <string name="notification_text_stay_inside">Currently it is bad weather for going outside.</string>
 </resources>

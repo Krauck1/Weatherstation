@@ -4,7 +4,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -38,8 +37,9 @@ import lecho.lib.hellocharts.view.LineChartView;
 
 public class DiagramsFragment extends Fragment implements Observer {
 
-    private final int TEMPERETURE_MAX = 40;
-    private final int TEMPERETURE_MIN = -20;
+    private final int TEMPERATURE_MAX = 40;
+    private final int TEMPERATURE_MIN = -20;
+
 
     private final int RAINFALL_MAX = 100;
     private final int RAINFALL_MIN = 0;
@@ -109,8 +109,8 @@ public class DiagramsFragment extends Fragment implements Observer {
         });
         //region Set Temperature Properties
         List<PointValue> valueRangeTemperature = new ArrayList<>();
-        valueRangeTemperature.add(new PointValue(0, TEMPERETURE_MAX));
-        valueRangeTemperature.add(new PointValue(0, TEMPERETURE_MIN));
+        valueRangeTemperature.add(new PointValue(0, TEMPERATURE_MAX));
+        valueRangeTemperature.add(new PointValue(0, TEMPERATURE_MIN));
 
         lineRangeTemperature = new Line(valueRangeTemperature).setColor(MainActivity.colorTransparent).setCubic(true).setFilled(true).setHasPoints(false);
         lineTemperature = new Line().setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
@@ -144,8 +144,8 @@ public class DiagramsFragment extends Fragment implements Observer {
         Viewport viewportTemperature = new Viewport(lineChartViewTemperature.getMaximumViewport());
         viewportTemperature.left = 0;
         viewportTemperature.right = 20;
-        viewportTemperature.top = TEMPERETURE_MAX;
-        viewportTemperature.bottom = TEMPERETURE_MIN;
+        viewportTemperature.top = TEMPERATURE_MAX;
+        viewportTemperature.bottom = TEMPERATURE_MIN;
         lineChartViewTemperature.setLineChartData(lineChartDataTemperature);
         lineChartViewTemperature.setZoomType(ZoomType.HORIZONTAL);
         lineChartViewTemperature.setCurrentViewport(viewportTemperature);
@@ -188,8 +188,8 @@ public class DiagramsFragment extends Fragment implements Observer {
         Viewport viewportRainfall = new Viewport(lineChartViewRainfall.getMaximumViewport());
         viewportRainfall.left = 0;
         viewportRainfall.right = 20;
-        viewportRainfall.top = TEMPERETURE_MAX;
-        viewportRainfall.bottom = TEMPERETURE_MIN;
+        viewportRainfall.top = TEMPERATURE_MAX;
+        viewportRainfall.bottom = TEMPERATURE_MIN;
         lineChartViewRainfall.setLineChartData(lineChartDataRainfall);
         lineChartViewRainfall.setZoomType(ZoomType.HORIZONTAL);
         lineChartViewRainfall.setCurrentViewport(viewportRainfall);
