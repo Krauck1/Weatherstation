@@ -3,7 +3,6 @@ package kpmm.htl.weatherstation.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,11 +71,11 @@ public class NotificationsFragment extends Fragment {
         numberPickerWednesday.setValue(model.getWednesday());
         numberPickerThursday.setValue(model.getThursday());
         numberPickerFriday.setValue(model.getFriday());
-        switchSmoking.setChecked(model.isSmoking());
+        switchSmoking.setChecked(model.isGoingOutside());
         switchMain.setChecked(model.isNotifications());
 
 
-        if (model.isSmoking())
+        if (model.isGoingOutside())
             linearLayoutHours.setVisibility(View.VISIBLE);
         else
             linearLayoutHours.setVisibility(View.GONE);
@@ -92,10 +91,10 @@ public class NotificationsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    model.setSmoking(true);
+                    model.setGoingOutside(true);
                     linearLayoutHours.setVisibility(View.VISIBLE);
                 } else {
-                    model.setSmoking(false);
+                    model.setGoingOutside(false);
                     linearLayoutHours.setVisibility(View.GONE);
                 }
             }

@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -27,7 +26,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
@@ -35,7 +33,6 @@ import java.util.Observable;
 import kpmm.htl.weatherstation.receivers.AlarmReceiver;
 
 import static android.content.Context.ALARM_SERVICE;
-import static android.content.Context.CAMERA_SERVICE;
 
 
 /**
@@ -46,7 +43,7 @@ public class Model extends Observable {
     private static final String PATH = "weatherstationconfig.txt";
     private static final boolean TEST = true;
 
-    private boolean smoking = false;
+    private boolean goingOutside = false;
     private boolean notifications = false;
     private byte monday = (byte) 0;
     private byte tuesday = (byte) 0;
@@ -55,10 +52,12 @@ public class Model extends Observable {
     private byte friday = (byte) 0;
     private long[] millisOfDay = {31800000, 35100000, 39000000, 42300000, 45600000, 48900000, 52200000, 55500000, 58800000};
 
-    private final String IPADRESS = "http://192.168.1.72:8080";
+    private final String IPADRESS = "http://192.168.2.213:8080";
     private final String LAST = "/last";
     private final String ALL = "/all";
+    private final String FROM_NOW = "/from_now/";
     private final long DELAY = 5 * 60 * 1000;
+    private final int WEEKSECONDS= 60*60*24*7;
 
     private static Model instance;
 
@@ -72,13 +71,11 @@ public class Model extends Observable {
 
     public void setContext(Context context) {
         this.context = context;
-        requestLastMeasurement();
+        requestAllMeasurements();
         //saveData();
         loadData();
 
-        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -87,11 +84,15 @@ public class Model extends Observable {
         calendar.set(Calendar.MILLISECOND, 0);
         long timeOfDay = calendar.getTimeInMillis();
 
-
-        System.out.println(System.currentTimeMillis() + " - " + timeOfDay + millisOfDay[0]);
-        for(long millis:millisOfDay){
-            alarmManager.setRepeating(AlarmManager.RTC, timeOfDay+millis, AlarmManager.INTERVAL_DAY*7, pendingIntent);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+        for(int i=0;i<millisOfDay.length;i++) {
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, i, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            long timeToSet=timeOfDay+millisOfDay[i]<System.currentTimeMillis()?timeOfDay+millisOfDay[i]+1000*60*60*24:timeOfDay+millisOfDay[i];
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeToSet, AlarmManager.INTERVAL_DAY, pendingIntent);
         }
+
+
     }
 
     private Model() {
@@ -101,7 +102,7 @@ public class Model extends Observable {
         if (this.context == null)
             return;
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(JsonArrayRequest.Method.GET, url, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(JsonArrayRequest.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 try {
@@ -164,7 +165,8 @@ public class Model extends Observable {
                 }
             }
         });
-        requestQueue.add(jsonArrayRequest);
+
+        requestQueue.add(request);
         requestQueue.start();
     }
 
@@ -215,7 +217,8 @@ public class Model extends Observable {
     }
 
     public void requestAllMeasurements() {
-        receiveDataArrayFromREST(IPADRESS + ALL);
+        //receiveDataArrayFromREST(IPADRESS + ALL);
+        receiveDataArrayFromREST(IPADRESS+FROM_NOW+WEEKSECONDS);
     }
 
     public void requestMeasurementFromNow() {
@@ -247,12 +250,12 @@ public class Model extends Observable {
         return success;
     }
 
-    public boolean isSmoking() {
-        return smoking;
+    public boolean isGoingOutside() {
+        return goingOutside;
     }
 
-    public void setSmoking(boolean smoking) {
-        this.smoking = smoking;
+    public void setGoingOutside(boolean goingOutside) {
+        this.goingOutside = goingOutside;
         saveData();
     }
 
@@ -313,7 +316,7 @@ public class Model extends Observable {
     private void saveData() {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(context.getFilesDir().getPath() + "/" + PATH));
-            bufferedWriter.write((smoking ? 1 : 0) + ";" + monday + ";" + tuesday + ";" + wednesday + ";" + thursday + ";" + friday + ";" + (notifications ? 1 : 0));
+            bufferedWriter.write((goingOutside ? 1 : 0) + ";" + monday + ";" + tuesday + ";" + wednesday + ";" + thursday + ";" + friday + ";" + (notifications ? 1 : 0));
             bufferedWriter.close();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -332,7 +335,7 @@ public class Model extends Observable {
             System.out.println(str);
             bufferedReader.close();
             String[] split = str.split(";");
-            smoking = split[0].charAt(0) == '1';
+            goingOutside = split[0].charAt(0) == '1';
             monday = Byte.parseByte(split[1]);
             tuesday = Byte.parseByte(split[2]);
             wednesday = Byte.parseByte(split[3]);
