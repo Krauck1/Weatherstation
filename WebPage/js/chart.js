@@ -15,8 +15,9 @@ var jsonData = {"ground_temperature": 31.0, "wind_speed": 10.0, "rainfall": 10.0
     //getJson();
 
 function getJson(){
+	var ip = "http://" + location.host + ":8080/last";
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "http://172.18.3.74:8080/last", false); // false for synchronous request //Here type in the IP
+    xmlHttp.open("GET", ip, false); // false for synchronous request //Here type in the IP
     xmlHttp.send(null);
     jsonData = JSON.parse(xmlHttp.responseText);
     return xmlHttp.responseText;
@@ -143,13 +144,13 @@ function addToTemperatureArr(){
         for(var i = 1; i<temparaturearr.length-1;i++){
             temparaturearr[i][1] = temparaturearr[i][1];
         }
-        temparaturearr[temparaturearr.length-1][1]=jsonData.ambient_temperature;
+        temparaturearr[temparaturearr.length-1][1]=jsonData.ground_temperature;
     }
     else
         for (var i = 0; i < temparaturearr.length; i++){
             if(temparaturearr[i][1]== null){
                 cntTemperature++;
-                temparaturearr[i][1] = jsonData.ambient_temperature;
+                temparaturearr[i][1] = jsonData.ground_temperature;
                 break;
             }
         }
