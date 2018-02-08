@@ -93,7 +93,7 @@ public class OverviewFragment extends Fragment implements Observer {
             @Override
             public void onRefresh() {
                 if (mainActivity.isNetworkAvailable())
-                    model.requestLastMeasurement();
+                    model.requestAllMeasurements();
                 else {
                     swipeRefreshLayout.setRefreshing(false);
                     Toast.makeText(mainActivity.getApplicationContext(), "No Internet Connection Avaiable", Toast.LENGTH_SHORT).show();
@@ -112,7 +112,7 @@ public class OverviewFragment extends Fragment implements Observer {
             return;
         }
         lastMeasurement = model.getLastMeasurement();
-        compareMeasurement = model.getMeasurementFromNow(1000);
+        compareMeasurement = model.getMeasurementFromNow(60*24*7);
 
         textViewCurrentTemperature.setText(String.format(Locale.ENGLISH, "%.2f °C", lastMeasurement.getAmbientTemperature()));
         textViewCurrentHumidity.setText(String.format(Locale.ENGLISH, "%.2f %%", lastMeasurement.getHumidity()));
