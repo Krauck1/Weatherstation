@@ -288,7 +288,7 @@ function getWind() {
     return jsonData.wind_speed;
 }
 function getTemperature() {
-	return jsonData.ambient_temperature;
+	return jsonData.ground_temperature;
 }
 
 function refreshHum() {
