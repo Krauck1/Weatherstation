@@ -15,7 +15,7 @@ log.setLevel(logging.CRITICAL)
 
 mysql_host = "localhost"
 mysql_user = "root"
-mysql_password = "root"
+mysql_password = "passme"
 mysql_db = "weather"
 
 
