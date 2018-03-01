@@ -114,16 +114,16 @@ public class OverviewFragment extends Fragment implements Observer {
         lastMeasurement = model.getLastMeasurement();
         compareMeasurement = model.getMeasurementFromNow(60*24*7);
 
-        textViewCurrentTemperature.setText(String.format(Locale.ENGLISH, "%.2f °C", lastMeasurement.getAmbientTemperature()));
+        textViewCurrentTemperature.setText(String.format(Locale.ENGLISH, "%.2f °C", lastMeasurement.getGroundTemperature()));
         textViewCurrentHumidity.setText(String.format(Locale.ENGLISH, "%.2f %%", lastMeasurement.getHumidity()));
-        textViewCurrentRain.setText(String.format(Locale.ENGLISH, "%.2f mm³", lastMeasurement.getRainfall()));
+        textViewCurrentRain.setText(String.format(Locale.ENGLISH, "%.2f mm", lastMeasurement.getRainfall()));
 
         //region SET COMPARE
-        if (compareMeasurement.getAmbientTemperature() > lastMeasurement.getAmbientTemperature()) {
-            textViewCompareTemperature.setText(String.format(Locale.ENGLISH, "%.2f °C", compareMeasurement.getAmbientTemperature() - lastMeasurement.getAmbientTemperature()));
+        if (compareMeasurement.getGroundTemperature() > lastMeasurement.getGroundTemperature()) {
+            textViewCompareTemperature.setText(String.format(Locale.ENGLISH, "%.2f °C", compareMeasurement.getGroundTemperature() - lastMeasurement.getGroundTemperature()));
             imageViewCompareTemperatureDifference.setImageResource(R.drawable.ic_arrow_upward);
-        } else if (compareMeasurement.getAmbientTemperature() < lastMeasurement.getAmbientTemperature()) {
-            textViewCompareTemperature.setText(String.format(Locale.ENGLISH, "%.2f °C", lastMeasurement.getAmbientTemperature() - compareMeasurement.getAmbientTemperature()));
+        } else if (compareMeasurement.getGroundTemperature() < lastMeasurement.getGroundTemperature()) {
+            textViewCompareTemperature.setText(String.format(Locale.ENGLISH, "%.2f °C", lastMeasurement.getGroundTemperature() - compareMeasurement.getGroundTemperature()));
             imageViewCompareTemperatureDifference.setImageResource(R.drawable.ic_arrow_downward);
         } else {
             textViewCompareTemperature.setText("0");
@@ -145,7 +145,7 @@ public class OverviewFragment extends Fragment implements Observer {
             textViewCompareRainfall.setText(String.format(Locale.ENGLISH, "%.2f °C", compareMeasurement.getHumidity() - lastMeasurement.getHumidity()));
             imageViewCompareHumidityDifference.setImageResource(R.drawable.ic_arrow_upward);
         } else if (compareMeasurement.getHumidity() < lastMeasurement.getHumidity()) {
-            textViewCompareRainfall.setText(String.format(Locale.ENGLISH, "%.2f °C", lastMeasurement.getHumidity() - compareMeasurement.getHumidity()));
+            textViewCompareRainfall.setText(String.format(Locale.ENGLISH, "%.2f mm", lastMeasurement.getHumidity() - compareMeasurement.getHumidity()));
             imageViewCompareHumidityDifference.setImageResource(R.drawable.ic_arrow_downward);
         } else {
             textViewCompareHumidity.setText("0");
@@ -158,11 +158,11 @@ public class OverviewFragment extends Fragment implements Observer {
             textViewHeadingCurrentWeather.setTextColor(ColorStateList.valueOf(MainActivity.colorTemperature));
             linearLayout.setBackgroundResource(R.drawable.sunny);
         } else {
-            if (lastMeasurement.getAmbientTemperature() < 0) {
+            if (lastMeasurement.getGroundTemperature() < 0) {
                 imageViewCurrentWeather.setImageResource(R.drawable.ic_snowflake);
                 textViewHeadingCurrentWeather.setTextColor(ColorStateList.valueOf(MainActivity.colorSnow));
                 linearLayout.setBackgroundResource(R.drawable.snowy);
-            } else if (lastMeasurement.getAmbientTemperature() > 30) {
+            } else if (lastMeasurement.getGroundTemperature() > 30) {
                 imageViewCurrentWeather.setImageResource(R.drawable.ic_eclipse);
                 textViewHeadingCurrentWeather.setTextColor(ColorStateList.valueOf(MainActivity.colorEclipse));
                 linearLayout.setBackgroundResource(R.drawable.sunny);

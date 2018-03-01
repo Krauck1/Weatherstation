@@ -160,11 +160,11 @@ public class MainActivity extends AppCompatActivity
                 fragmentSelection = FragmentSelection.NOTIFICATIONS;
                 changeFragment();
             }
-        } else if (id == R.id.nav_recent) {
+        } /*else if (id == R.id.nav_recent) {
             if (fragmentSelection != FragmentSelection.RECENT) {
 
             }
-        }
+        }*/
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

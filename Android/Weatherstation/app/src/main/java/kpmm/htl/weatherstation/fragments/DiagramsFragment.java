@@ -122,7 +122,7 @@ public class DiagramsFragment extends Fragment implements Observer {
         LineChartData lineChartDataTemperature = new LineChartData();
 
         Axis xAxisTemperature = new Axis();
-        xAxisTemperature.setName("Time");
+        xAxisTemperature.setName("Time From Now");
         xAxisTemperature.setMaxLabelChars(4);
         xAxisTemperature.setTextColor(Color.BLACK);
         xAxisTemperature.setLineColor(Color.BLACK);
@@ -166,7 +166,7 @@ public class DiagramsFragment extends Fragment implements Observer {
         LineChartData lineChartDataRainfall = new LineChartData();
 
         Axis xAxisRainfall = new Axis();
-        xAxisRainfall.setName("Time");
+        xAxisRainfall.setName("Time From Now");
         xAxisRainfall.setMaxLabelChars(4);
         xAxisRainfall.setTextColor(Color.BLACK);
         xAxisRainfall.setLineColor(Color.BLACK);
@@ -211,12 +211,14 @@ public class DiagramsFragment extends Fragment implements Observer {
         data.getLines().clear();
         Line line = new Line().setColor(MainActivity.colorAccent).setCubic(true).setAreaTransparency(150).setFilled(false).setHasPoints(false);
         for (Measurement measurement : model.getMeasurementList()) {
-            line.getValues().add(new PointValue(i, measurement.getAmbientTemperature()));
+            line.getValues().add(new PointValue(i, measurement.getGroundTemperature()));
             i += 5;
         }
         data.getLines().add(line);
         data.getLines().add(lineRangeTemperature);
         lineChartViewTemperature.setLineChartData(data);
+        lineChartViewTemperature.setZoomLevel(0,lineChartViewTemperature.getMaximumViewport().centerY(),10);
+
 
         data = new LineChartData(lineChartViewRainfall.getLineChartData());
         data.getLines().clear();
@@ -228,5 +230,7 @@ public class DiagramsFragment extends Fragment implements Observer {
         data.getLines().add(line);
         data.getLines().add(lineRangeRainfall);
         lineChartViewRainfall.setLineChartData(data);
+        lineChartViewRainfall.setZoomLevel(0,lineChartViewRainfall.getMaximumViewport().centerY(),10);
+
     }
 }

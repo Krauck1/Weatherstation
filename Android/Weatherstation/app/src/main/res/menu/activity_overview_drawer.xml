@@ -6,10 +6,10 @@
             android:id="@+id/nav_overview"
             android:icon="@drawable/ic_menu_overview"
             android:title="Overview" />
-        <item
+        <!--<item
             android:id="@+id/nav_recent"
             android:icon="@drawable/ic_menu_recent"
-            android:title="Recent" />
+            android:title="Recent" />-->
         <item
             android:id="@+id/nav_diagrams"
             android:icon="@drawable/ic_menu_diagrams"

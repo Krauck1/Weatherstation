@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
@@ -50,7 +51,7 @@ public class Model extends Observable {
     private byte wednesday = (byte) 0;
     private byte thursday = (byte) 0;
     private byte friday = (byte) 0;
-    private long[] millisOfDay = {31800000, 35100000, 39000000, 42300000, 45600000, 48900000, 52200000, 55500000, 58800000};
+    public static final long[] millisOfDay = {31800000, 35100000, 39000000, 42300000, 45600000, 48900000, 52200000, 55500000, 58800000};
 
     private final String IPADRESS = "http://192.168.2.213:8080";
     private final String LAST = "/last";
@@ -96,6 +97,7 @@ public class Model extends Observable {
     }
 
     private Model() {
+        System.out.println(GregorianCalendar.getInstance().get(Calendar.DATE));
     }
 
     private void receiveDataArrayFromREST(String url) {
