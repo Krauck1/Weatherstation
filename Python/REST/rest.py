@@ -13,7 +13,7 @@ app = Flask(__name__)
 log = logging.getLogger('werkzeug') #flask logger
 log.setLevel(logging.CRITICAL)
 
-mysql_host = "localhost"
+mysql_host = "db"
 mysql_user = "root"
 mysql_password = "passme"
 mysql_db = "weather"

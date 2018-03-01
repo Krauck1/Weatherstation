@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  db:
+    build: ./Python/REST/db
+    ports:
+      - 3306:3306
+  rest:
+    build: ./Python/REST
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+  web:
+    image: httpd
+    volumes:
+        - ./WebPage:/usr/local/apache2/htdocs/
+    ports:
+      - 80:80
+    depends_on:
+      - rest
+     
