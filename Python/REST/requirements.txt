@@ -1,0 +1,6 @@
+setuptools
+ez_setup
+flask
+responses
+mysql-connector==2.1.6
+web.py==0.40.dev0
