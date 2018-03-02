@@ -1,6 +1,7 @@
 import mysql.connector
 from datetime import date, datetime, timedelta
 import time
+import random
 
 mysql_host = "db"
 mysql_user = "root"
@@ -22,10 +23,16 @@ def main():
 				print(err)
 		
 		statement = ("insert into WEATHER_MEASUREMENT(ambient_temperature, ground_temperature, air_quality, air_pressure, humidity, wind_direction, wind_speed, wind_gust_speed, rainfall, created)"
-					"values (10, 20, 10, 10, 10, 20, 20, 20, 30, %(created)s)")
+					"values (%(ambient_temperature)s, %(ground_temperature)s, 1, 10, %(humidity)s, 20, %(wind_speed)s, %(wind_gust_speed)s, %(rainfall)s, %(created)s)")
 		newDate = startTime + timedelta(minutes=min)
 		min += 5
 		data = {
+			'ambient_temperature' : random.randint(-10, 30),
+			'ground_temperature' : random.randint(-10, 30),
+			'humidity' : random.randint(0, 100),
+			'wind_speed' : random.randint(0, 40),
+			'wind_gust_speed' : random.randint(0, 40),
+			'rainfall' : random.randint(0, 100),
 			'created' : newDate 
 		}
 		#datetime.datetime.now()
