@@ -304,7 +304,7 @@ function refreshWin() {
 }
 
 function refreshRain() {
-    document.getElementById("rain").innerHTML = getRainfall() + "%";
+    document.getElementById("rain").innerHTML = getRainfall() + "mm";
 }
 
 function refreshCurrentValues() {
